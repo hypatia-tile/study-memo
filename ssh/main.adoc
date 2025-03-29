@@ -1,0 +1,76 @@
+== SSH (Secure Shell)
+
+SSH (Secure Shell) is a cryptographic network protocol for operating network services securely over an unsecured network. The best-known example application of SSH is for remote login to computer systems by users. SSH provides a secure channel over an unsecured network in a client-server architecture, connecting an SSH client application with an SSH server.
+
+=== commands
+
+[source,sh]
+----
+eval "$(ssh-agent -s)"
+----
+
+This command starts the SSH agent in the background and sets the necessary environment variables for the current shell session.
+The `eval` command executes the output of the `ssh-agent -s` command, which includes the necessary environment variables to communicate with the SSH agent.
+
+The `ssh-agent` command is a program that holds private keys used for public key authentication (RSA, DSA, ECDSA, ED25519)
+and manages the keys for SSH sessions.
+The `-s` option specifies that the output should be in a format suitable for Bourne-compatible shells (like bash or zsh).
+The `eval` command is used to execute the output of the `ssh-agent -s` command in the current shell.
+This is necessary because the `ssh-agent` command outputs shell commands that set environment variables,
+and `eval` allows those commands to be executed in the current shell context.
+
+Typically, you would run this command in your terminal to start the SSH agent and set up the environment variables needed for SSH authentication.
+Output of the command will look like this:
+
+[source,sh]
+----
+SSH_AUTH_SOCK=/tmp/ssh-XXXXXX/agent.YYYYYY; export SSH_AUTH_SOCK;
+SSH_AGENT_PID=ZZZZZZ; export SSH_AGENT_PID;
+echo Agent pid ZZZZZZ;
+----
+
+After running this command,
+you can add your SSH private key to the agent using the `ssh-add` command.
+
+[source,sh]
+----
+ssh-add ~/.ssh/id_rsa
+----
+
+This command adds the private key located at `~/.ssh/id_rsa` to the SSH agent.
+
+=== Check if you already have SSH keys
+
+First, check if you already have SSH keys on your machine.
+If you have already generated SSH keys, you will find them in the `~/.ssh` directory.
+
+[source,sh]
+----
+ls -al ~/.ssh
+----
+
+If you might see files like `id_rsa` and `id_rsa.pub`, it means you already have SSH keys.
+
+[cols="1,1", options="header"]
+|===
+
+| File | Description
+| `id_rsa` | Your private key. Keep it secret and secure. Never share this file with anyone.
+| `id_rsa.pub` | Your public key. This is the key you can share with others or add to your GitHub account.
+|===
+
+If you don't see these files, you can generate a new SSH key pair.
+
+=== Generate a new SSH key pair
+
+If you don't have SSH keys or want to generate a new pair,
+you can use following command to create a new SSH key pair.
+
+[source,sh]
+----
+ssh-keygen -t rsa -b 4096 -C "your_email@example.com"
+----
+
+This command generates a new SSH key using the RSA algorithm with a key size of 4096 bits.
+
+
