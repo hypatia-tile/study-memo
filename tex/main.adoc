@@ -1,0 +1,65 @@
+= Installation and Usage of MacTex
+
+== Installation
+
+=== Download MacTex
+
+Download the MacTex package from the official website: https://www.tug.org/mactex/mactex-download.html
+
+MacTeX-2025 requires macOS 10.14 or higher.
+These systems are named Mojave, Catalina, Big Sur, Monterey, Ventura, Sonoma, and Sequoia.
+It runs natively on both Arm and Intel machines.
+The same source code is used to compile both types of code, so Apple's Arm and Intel machines are on exactly the same footing.
+All install packages are developer-signed and notarized by Apple.
+
+=== Install MacTex
+
+After downloading, move the file MacTeX.pkg to the desktop or another convenient spot, and double click it to install. Follow the straightforward instructions. 
+Users who use MacPorts or HomeBrew may prefer to use the Ghostscript provided by these projects
+and should use "Customize" to disable Ghostscript installation.
+
+Near the end of installation, there will be a a pause when nothing seems to happen.
+During this pause, TeX Live creates format files for the typesetting engines.
+
+=== Installation of Ghostscript
+
+Ghostscript is a suite of software that provides an interpreter for the PostScript language and the PDF file format.
+It is used by TeX Live to convert PostScript files to PDF and vice versa.
+Ghostscript is included in the MacTeX distribution, but if you are using MacPorts or HomeBrew, you may want to install Ghostscript from there.
+Ghostscript is also available from the official website: https://www.ghostscript.com/download/gsdnld.html
+Ghostscript is a free and open-source software suite that is used for processing PostScript and PDF files.
+It is widely used in the TeX community for converting PostScript files to PDF and vice versa.
+Ghostscript is a powerful tool that can be used for a variety of tasks, including:
+* Converting PostScript files to PDF
+* Converting PDF files to PostScript
+* Merging multiple PDF files into a single PDF file
+* Splitting a PDF file into multiple PDF files
+* Extracting text and images from PDF files
+* Compressing PDF files
+* Encrypting and decrypting PDF files
+* Adding watermarks to PDF files
+* Converting PDF files to other formats, such as TIFF, PNG, and JPEG
+
+We install Ghostscript using HomeBrew.
+
+[source, shell]
+----
+brew install ghostscript
+----
+
+== Usage
+
+=== Basic Usage
+
+The basic usage of MacTeX is to use the command line to compile TeX files into PDF files.
+The command to compile a TeX file is:
+[source, shell]
+----
+pdflatex filename.tex
+----
+This command will create a PDF file with the same name as the TeX file.
+
+
+== Next todo
+
+link:https://github.com/James-Yu/LaTeX-Workshop/wiki/Install#using-docker[Install LaTeX Workshop using Docker]
