@@ -1,2 +1,70 @@
 = study-memo
 The purpose of this repository is note my study verbosely.
+
+== Subjects
+
+- [ ] First and foremost, I want to arrange my environment for study.
+
+== contents
+
+link:ssh/main.adoc[SSH]
+
+== interest
+
+- [x] MacTeX
+- [ ] Install LaTeX Workshop using Docker
+- [ ] 
+
+
+[cols="1,2,2,2,2", options="header"]
+|===
+
+| Topic
+| Description
+| What to do next
+| progress(current task)
+| progress(whole task)
+
+| LaTeX
+| Installation and usage of mactex
+| Write a notes for my learning math using LaTeX
+| 0%
+| 70%
+
+| learn github actions
+| Learn how to use Git
+| Investigate the usage of GitHub actions
+| 0%
+| 0%
+
+| learn how to use docker
+| Learn how to use docker
+| Investigate the usage of docker
+| 0%
+| 0% 
+
+|===
+
+== Books
+
+[cols="3,2,2,2,1", options="header"]
+|===
+| Book
+| Author
+| description
+| Link
+| What to do next
+| progress
+
+| Effective C: An Introduction to Professional C Programming
+| Robert C. Seacord
+| A detailed introduction to C programming language for experienced programmers
+| link:/books/effective-c/main.adoc[]
+| 
+| 10%
+
+|===
+
+== Next todo
+
+link:https://github.com/James-Yu/LaTeX-Workshop/wiki/Install#using-docker[Install LaTeX Workshop using Docker]
