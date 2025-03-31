@@ -7,7 +7,8 @@ The purpose of this repository is note my study verbosely.
 
 == contents
 
-link:ssh/main.adoc[SSH]
+* link:ssh/main.adoc[SSH]
+* link:tex/main.adoc[LaTeX]
 
 == interest
 
