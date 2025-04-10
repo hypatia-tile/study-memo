@@ -1,0 +1,19 @@
+= Benefits of Using Docker for Learning C
+
+. Consistency Across Setups +
+You get the sabe development environment every time
+-- same compiler version, libraries, tools, etc.
+No more "it works on my machine" issues.
+. No need to install Dev Tools on Host +
+You don't have to install compilers,
+build tools, or libraries on your system.
+Just pull a Docker image with everything pre-installed (like `gcc`, `make`, `valgrind`, etc.).
+. Easy Experimentation +
+You can mess around with defferent setups(e.g., various C standards like C89, C99, C11)
+without worrying about breaking your main system.
+. Version Control for Your Environment +
+Your `Dockerfile` becomes a version-controlled recipe for your C dev environment
+-- super useful for sharing or reusing later.
+. Lightweight and Portable +
+You can use your C dev environment on any machine with Docker installed
+-- Windows, macOS, Linux -- without platrorm-specific issues.
