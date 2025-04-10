@@ -19,4 +19,7 @@
 | Walk through a concrete example that shows how code might fail on one environment but work correctly inside a Docker container
 | link:note4.adoc[How code might fail on one environment but work correctly inside a Docker container]
 
+| Dockerization for bit more complex application
+| link:note5.adoc[Spring Boot example]
+
 |===
