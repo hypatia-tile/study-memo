@@ -13,8 +13,7 @@ The purpose of this repository is note my study verbosely.
 == interest
 
 - [x] MacTeX
-- [ ] Install LaTeX Workshop using Docker
-- [ ] 
+- [x] Install LaTeX Workshop using Docker
 
 
 [cols="1,2,2,2,2", options="header"]
@@ -25,24 +24,28 @@ The purpose of this repository is note my study verbosely.
 | What to do next
 | progress(current task)
 | progress(whole task)
+| see
 
 | LaTeX
 | Installation and usage of mactex
 | Write a notes for my learning math using LaTeX
 | 0%
 | 70%
+|
 
 | learn github actions
 | Learn how to use Git
 | Investigate the usage of GitHub actions
 | 0%
 | 0%
+|
 
 | learn how to use docker
 | Learn how to use docker
 | Investigate the usage of docker
 | 0%
-| 0% 
+| 0%
+| link:docker/main.adoc[Docker]
 
 |===
 
