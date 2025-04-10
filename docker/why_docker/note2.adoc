@@ -70,3 +70,4 @@ the app lives its own portable environment.
 * Across servers (staging, production)
 * Across cloud providers (AWS, Azure, GCP)
 
+If you'd like, I can show an example where code fails on one environment but succeeds inside Docker -would that help illustrate it?

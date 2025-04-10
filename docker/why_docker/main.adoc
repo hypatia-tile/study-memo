@@ -16,5 +16,7 @@
 | Why Can Docker images Contain Everything your App Needs?
 | link:note3.adoc[Docker images contain everything your app needs]
 
+| Walk through a concrete example that shows how code might fail on one environment but work correctly inside a Docker container
+| link:note4.adoc[How code might fail on one environment but work correctly inside a Docker container]
 
 |===
