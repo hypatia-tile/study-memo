@@ -1,0 +1,66 @@
+= Why Can Docker Images Contain Everything Your App Needs?
+
+Because a Docker image is built layer-by-layer using a script called a Dockerfile,
+and each layer adds specific components
+-- like installing system packages, libraries, config files, or even the programming language runtime itself.
+
+Let's break it down with an analogy and an example:
+
+
+== Analogy: A Bento Box
+
+Think of a Docker image like a bento box:
+
+* You prepare each item (rice, meat, veggies) separately.
+* You then pack them neatly into one container.
+* Whenever you take the bento box
+-- office, school, picnic -- it has everything ready to eat.
+
+Docker images work the same way --you build and pack everything into one image:
+
+* Base OS (like Ubuntu or Alpine)
+* Language runtime (e.g., Python, Java)
+* Yourr app's dependencies
+* Your own code
+* Start-up commands
+
+Example Dockerfile(Python)
+[source, dockerfile]
+----
+# Start from a base image with Python already installed
+FROM python:3.11-slim
+
+# Set the working directory
+WORKDIR /app
+
+# Copy your Python code into the image
+COPY . .
+
+# Install your dependencies
+RUN pip install -r requirements.txt
+
+# Run the application
+CMD ["python", "app.py"]
+----
+
+Each lines:
+
+* FROM: Start with a base layer that already has Linux + Python.
+* COPY: Adds your own code.
+* RUN pip install: Adds libraries.
+* CMD: Defines what happens when you run the container.
+
+== What's Inside an Image?
+
+Internally, a Docker image is just a stack of read-only filesystem layers,
+where each layer represents a change
+-- like adding a libraty or copying a file.
+When combined, these layers form a complete filesystem that the container will use when running.
+
+== Summary
+
+Docker images can contain all necessary components because:
+
+. They are built intentionally to do so using Dockerfiles.
+. Docker uses layered filesystems, letting you stack OS, tools, and your app.
+. The final image is self-contained -- just like a portable app in its own environment.
