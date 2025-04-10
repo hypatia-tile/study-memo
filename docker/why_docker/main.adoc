@@ -10,4 +10,8 @@
 | Walk through the **big picture** of creating application using Docker and how Docker is configured and works under the hood
 | link:note1.adoc[How Docker Works]
 
+| What does mean that Docker containers run reliably across environments?
+| link:note2.adoc[Docker containers run reliably across environments]
+
+
 |===
