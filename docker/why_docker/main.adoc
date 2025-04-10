@@ -22,4 +22,7 @@
 | Dockerization for bit more complex application
 | link:note5.adoc[Spring Boot example]
 
+| Dockerization for a bit more complex application
+| link:note6.adoc[Spring Boot example with Docker Compose]
+
 |===
