@@ -33,7 +33,7 @@ pip install requests # This installs the latest version
 python app.py
 ----
 
-Miight raise:
+Might raise:
 
 [source, vbnet]
 ----
@@ -41,6 +41,11 @@ KeyError: 'Host'
 ----
 
 Because in newer versions, the response format might have changed slightly.
+
+[simple, text]
+====
+Actually, it might work on your machine, but not on someone else's.
+====
 
 ==== Now, let's Dockerize it:
 
