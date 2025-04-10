@@ -1,5 +1,13 @@
 = Why Docker
 
-== links
+== Table of Contents
 
-* link:note1.adoc[How Docker Works]
+[cols="2,1", options="header"]
+|===
+| content
+| link
+
+| Walk through the **big picture** of creating application using Docker and how Docker is configured and works under the hood
+| link:note1.adoc[How Docker Works]
+
+|===
