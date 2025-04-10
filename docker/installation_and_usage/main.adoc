@@ -1,0 +1,39 @@
+== Use Docker on a Mac with an M3 chip
+
+=== Prerequisites
+
+To use Docker on a Mac with an M3 chip,
+we will need to download and install Docker Desktop for Mac(Apple Silicon version).
+Here's what we should do:
+
+1. Download Docker Desktop for Apple Silicon: +
+We will need to download the ARM64 version specifically designed for Apple Silicon chips like M3.
+Visit the Docker Desktop download page: link:https://desktop.docker.com/mac/main/arm64/Docker.dmg?utm_source=docker&utm_medium=webreferral&utm_campaign=docs-driven-download-mac-arm64[Docker Desktop for Mac (Apple Silicon)].
+
+2. System Requirements: +
+Make sure our system meets the requirements for Docker Desktop.
+We can check the specific requirements in the link:https://docs.docker.com/desktop/setup/install/mac-install/[Mac install instructions].
+
+3. Rosetta 2: +
+While Docker Desktop for Apple Silicon includes support for running ARM64 containers natively,
+we might need Rosetta 2 for running x86_64/amd64 containers through emulation.
+This can be configured in Docker Deskitop settings.
+
+4. License Consideration: +
+Be aware that commercial use of Docker Desktop in larger enterprises
+(more than 250 employees OR more than $10 milion USD in annual revenue)
+requires a paid subscription. 
+
+After installation, we can verify everything is working by running our first container with:
+
+[source, bash]
+----
+docker run -d -p 8080:80 docker/welcome-to-docker
+----
+
+Then access http://localhost:8080 in our web browser to see the welcome page.
+
+Docker Dsktop will provide us with a graphical interfac to manage our containers, images, volumes,
+and networks, making container management more straghtforward.
+
+
