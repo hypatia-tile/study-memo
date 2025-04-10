@@ -1,0 +1,275 @@
+= Combining Spring Boot with PostgreSQL using Docker
+
+Combining Spring Boot with PostgreSQL using Docker is a super practical and common setup.
+Let's walk through it step by step
+using **Docker Compose** so that both your app and the database run together smoothly.
+
+== Step-by-Step: Spring Boot + PostgreSWL with Docker Compose
+
+**Project Structure**
+[directory]
+----
+demo/
+  |_ build.gradle.kts
+  |_ Dockerfile
+  |_ docker-compose.yml    <-- New file
+  |_ src/main/java/com/example/demo/DemoApplication.java
+  |_ src/main/resources
+  | |_ application.properties
+----
+
+=== Step 1: Add PostgreSQL dependency
+
+In `build.gradle.kts`:
+
+[source, kotlin]
+----
+dependencies {
+    implementation("org.springframework.boot:spring-boot-starter-web")
+    implementation("org.springframework.boot:spring-boot-starter-data-jpa")
+    runtimeOnly("org.postgresql:postgresql")
+}
+----
+
+=== Step 2 : Configure PostgreSQL connection
+
+In `src/main/resources/application.properties`:
+[source, properties]
+----
+spring.datasource.url=jdbc:postgresql://db:5432/mydb
+spring.datasource.username=postgres
+spring.datasource.password=postgres
+spring.jpa.hidernate.ddl-auto=update
+----
+
+`db` is the name of the service defined in `docker-compose.yml`(not `localhost`!).
+
+=== Step 3: Create Dockerfile (no cheange)
+
+[source, dockerfile]
+----
+FROM eclipse-temurin:17-jdk
+
+ARG JAR_FILE=build/libs/demo-0.0.1-SNAPSHOT.jar
+COPY ${JAR_FILE} app.jar
+
+ENTRYPOINT ["java", "-jar", "/app.jar"]
+----
+
+
+=== Step 4: Create docker-compose.yml
+
+[source, yaml]
+----
+version: "3.8"
+services:
+  db:
+    image: postgres:15
+    container_name: pg_container
+    environment:
+      POSTGRES_DB: mydb
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    ports:
+      - "5432:5432"
+  
+  app:
+    build: .
+    depends_on:
+      - db
+    ports:
+      - "8081:8080"
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://db:5432/mydb
+      SPRING_DATASOURCE_USERNAME: postgres
+      SPRING_DATASOURCE_PASSWORD: postgres
+----
+
+=== Step 5: Build your JAR and bring it all up
+
+[source, bash]
+----
+./gradlew bootJar
+docker-compose up --build
+----
+
+== Stepo-by-Step: Add an Entity + JPA Repository to Your Spring Boot App
+
+Let's say you want to manage `User` objects with `id`, `name`, and `email`.
+
+=== Step 1: Create the Entity
+
+[source, java]
+----
+package com.example.demo.model;
+
+import jakarta.persistence.*;
+
+@Entity
+public class User {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    private String name;
+    private String email;
+
+    // Constructors
+    public User() {}
+
+    public User(String name, String email) {
+        this.name = name;
+        this.email = email;
+    }
+
+    // Getters and Setters
+    public Long getId() { return id; }
+    public void setId(Long id) { this.id = id;}
+
+    public void getName() { return naem; }
+    public void setName(String name) { this.name = name; }
+
+    public String getEmail() { return email; }
+    public void setEmail(String email) { this.email = email; }
+}
+----
+
+=== Step 2: Create the Repository
+
+`src/main/java/com/example/demo/repository/UserRepository.java`
+[source, java]
+----
+package com.example.demo;
+
+import org.springframework.data.jpa.repository.JpaRepository;
+
+public interface UserRepository extends JpaRepository<User, Long> {
+}
+----
+
+=== Step 3: Create a REST Controller
+
+`src/main/java/com/example/demo/controller/UserController.java`
+[source, java]
+----
+package com.example.demo.controller;
+
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
+
+@RestController
+@RequestMapping("/users")
+public class UserController {
+
+    private final UserRepository userRepository;
+
+    public UserController(UserRepository userRepository) {
+        this.userRepository = userRepository;
+    }
+
+    @PostMapping
+    public User createUser(@RequestBody User user) {
+        return userRepository.save(user);
+    }
+
+    @GetMapping
+    public List<User> getAllUsers() {
+        return userRepository.findAll();
+    }
+}
+----
+
+=== Step 4: Rebuild and run
+
+Rebuild the JAR:
+[source, bash]
+----
+./gradlew bootJar
+----
+
+Then run the containers again:
+[source, bash]
+----
+docker-compose up --build
+----
+
+==== Step 5: Make sure the entity is discovered
+
+If your main class is:
+
+[source, java]
+----
+package com.example.demo;
+
+@SpringBootApplication
+public class DemoApplication {
+    public static void main(String[] args) {
+        SpringApplication.run(DemoApplication.class, args);
+    }
+}
+----
+
+Then any class under `com.example.demo` or a subpackage will be scanned automatically.
+If you placed entity in another package(e.g. com.example.entity),
+you must explicitly specify the package to scan:
+
+[source, java]
+----
+@SpringBootApplication
+@EntityScan("com.example.entity")
+----
+
+=== Step 6: Test the API
+
+Creaate a new user:
+
+[source, bash]
+----
+curl -X POST http://localhost:8081/users \
+    -H "Content-Type: application/json" \
+    -d '{"name": "Alice", "email", "alice@example.com}'
+----
+
+List all users:
+[source, bash]
+----
+curl http://localhost:8081/users
+----
+
+You should see the user you just created.
+[source, json]
+----
+[
+    {
+        "id": 1,
+        "name": "Alice",
+        "email": "alice@example.com"
+    }
+]
+----
+
+[simple, text]
+====
+Problem: `user` is reserved keyword in PostgreSQL
+
+PostgreSQL resuerves `user` because it's part of internal SQL commands
+(like `CREATE USER`).
+You can't use it as a table name without quoting it.
+====
+
+==== Option 1: Rename the entity (recommended)
+
+Rename your entity class from `User` to something like `AppUser`.
+[source, java]
+----
+package com.example.demo.model;
+import jakarta.persistence.*;
+@Entity
+public class AppUser {
+    // ...
+}
+----
+And rename the class in your repository and controller accordingly.
+
