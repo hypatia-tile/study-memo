@@ -1,0 +1,13 @@
+= Cheet Sheet
+
+== Docker commands' options
+
+[source, bash]
+----
+docker run -dit --name c-dev -v $(pwd):/app gcc:latest
+----
+
+* `-d` → detached mode
+* `-i` → keep STDIN open
+* `-t` → allocate a terminal(pseudo-TTY)
+* `-v $(pwd):/app` → mount your current directory inside the container
