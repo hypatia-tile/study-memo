@@ -1,3 +1,31 @@
 = How to use Docker for C programming
 
 - link:note01_1.adoc[Benefits of using Docker for Learning C]
+
+== Example: Simple C Development Docker Setup
+
+Here's a minimal `Dockerfile` to get you started:
+[source, dockerfile]
+----
+FROM gcc:latest
+
+WORKDIR /app
+
+COPY . /app
+
+CMD [ "bash" ]
+----
+
+And then:
+[source, bash]
+----
+docker build -t c-dev .
+docker run -it --rm -v $(pwd):/app c-dev
+----
+
+You'll be inside a container where you can compile and run your C program, like:
+[source, bash]
+----
+gcc hello.c -o hello
+./hello
+----
