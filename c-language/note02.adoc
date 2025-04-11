@@ -1,0 +1,9 @@
+= Docker container for C programming
+
+* A Docker container that:
+** Has GCC or Clang, Make, GDB, Valgrind, etc.
+** Runs in the **background**(`-d` mode)
+** Mounts your project folder
+** Lets you send commands to it(compile/run/test) using your local editor or shell
+
+. link:note02_1.adoc[configuration]
