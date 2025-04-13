@@ -1,8 +1,11 @@
-== SSH (Secure Shell)
+= SSH (Secure Shell)
 
-SSH (Secure Shell) is a cryptographic network protocol for operating network services securely over an unsecured network. The best-known example application of SSH is for remote login to computer systems by users. SSH provides a secure channel over an unsecured network in a client-server architecture, connecting an SSH client application with an SSH server.
+SSH (Secure Shell) is a cryptographic network protocol for operating network services securely over an unsecured network.
 
-=== commands
+* The best-known example application of SSH is for remote login to computer systems by users. +
+SSH provides a secure channel over an unsecured network in a client-server architecture, connecting an SSH client application with an SSH server.
+
+== commands
 
 [source,sh]
 ----
@@ -10,13 +13,13 @@ eval "$(ssh-agent -s)"
 ----
 
 This command starts the SSH agent in the background and sets the necessary environment variables for the current shell session.
-The `eval` command executes the output of the `ssh-agent -s` command, which includes the necessary environment variables to communicate with the SSH agent.
 
-The `ssh-agent` command is a program that holds private keys used for public key authentication (RSA, DSA, ECDSA, ED25519)
+. The `eval` command executes the output of the `ssh-agent -s` command in the current shell, which includes the necessary environment variables to communicate with the SSH agent.
+. The `ssh-agent` command is a program that holds private keys used for public key authentication (RSA, DSA, ECDSA, ED25519)
 and manages the keys for SSH sessions.
-The `-s` option specifies that the output should be in a format suitable for Bourne-compatible shells (like bash or zsh).
-The `eval` command is used to execute the output of the `ssh-agent -s` command in the current shell.
-This is necessary because the `ssh-agent` command outputs shell commands that set environment variables,
+. The `-s` option specifies that the output should be in a format suitable for Bourne-compatible shells (like bash or zsh).
+
+The `eval` command is necessary because the `ssh-agent` command outputs shell commands that set environment variables,
 and `eval` allows those commands to be executed in the current shell context.
 
 Typically, you would run this command in your terminal to start the SSH agent and set up the environment variables needed for SSH authentication.
