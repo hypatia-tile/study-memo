@@ -1,9 +1,9 @@
 = Structures
 
-A structure type (also known as a `struct`) contains sequentially allocated member objects.
-Each objects has its own name and may have a distinct type -- unlike arrays,
+* A structure type (also known as a `struct`) contains sequentially allocated member objects.
+* Each objects has its own name and may have a distinct type -- unlike arrays,
 which must all be of the same type.
-Structures are similar to record types found in other porgramming languages.
+* Structures are similar to record types found in other porgramming languages.
 
 == Declares an structure
 
@@ -18,6 +18,7 @@ struct sigrecord {
 } sigline, *sigline_p;
 ----
 The  structure has three member objects:
+
 . `signum` is an object of type `int`
 . `signame` is an array of type char consisting of 20 characters
 . `sigdesc` is an array of 100 characters
@@ -58,11 +59,10 @@ int main() {
 
 === Explanation of the code
 
-This code is a simple C program that demonstrates the use of structures
-and pointers to structures.
-It defines a structure named `sigrecord`
+This code defines a structure named `sigrecord`
 that represents information about a signal.
 The structure contains three members:
+
 . `signum`: +
 An integer to store the signal number.
 . `signame`: +
