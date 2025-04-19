@@ -1,0 +1,19 @@
+= `*ngFor` Directive
+
+== If `*ngFor` is not working
+
+If `*ngFor` is not working in your Angular project,
+here are some common issues and theri solutions:
+
+. Missing `CommonModule`: +
+The `*ngFor` directive is part of the `CommonModule`.
+if you are using standalone components,
+ensure that `CommonModule` is imported in your component.
++
+.Solution: Update your `TestPageComponent` to import `CommonModule`: +
+[source, typescript]
+----
+import { Component, ViewEncapsulation } from '@angular/core';
+import { CommonModule } from '@angular/common';
+...
+----
