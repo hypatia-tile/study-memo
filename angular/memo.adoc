@@ -21,7 +21,8 @@ each with a unique name for advanced routing scenarios.
 .Related Files
 . app.routes.ts:
 ** This file defines the route configurations for your application.
-** Example: +
+** Example:
++
 [source, typescript]
 ----
 import { Routes } from '@angular/router';
@@ -33,7 +34,8 @@ export const routes: Routes = [
 ----
 . app.component.html:
 ** Contains the `router-outlet` directive where routed components are displayed.
-** Example: +
+** Example:
++
 [source, html]
 ----
 <router-outlet></router-outlet>
@@ -42,7 +44,8 @@ export const routes: Routes = [
 ** The root component of your application,
 which includes the `RouterOutlet` in its `imports` array
 if using standalone components.
-** Example: +
+** Example:
++
 [source, typescript]
 ----
 import { RouterOutlet } from '@angular/router';
@@ -61,7 +64,8 @@ export class AppComponent {
 . index.html:
 ** The entry of your application, which contains the `<app-root></app-root>` tag.
 where the Angular app is bootstrapped.
-** Example: +
+** Example:
++
 [source, html]
 ----
 <!DOCTYPE html>
