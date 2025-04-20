@@ -62,8 +62,9 @@ It should be replaced with `name`
 To fix the issue and ensure that the compiled executable are stored in the `bin/experiments` directory,
 the `gcc` command and the `mkdir` command need to updated accordingly.
 Additionally, the undefined `target` variable in the `gcc` command should be replaced with the correct `name` variable.
-+
-.Here is the corrected code:
+
+Here is the corrected code:
+
 [source, makefile]
 ----
 @mkdir -p bin/experiments
@@ -89,9 +90,30 @@ used for variable expansion.
 When you want to use a literal `$` in shell commands within a `Makefile`,
 you need to escape it by doubling it (`$$`).
 
-.For example:
+For example:
+
 * `$$file` refers to the shell variable `file` in a `Makefile` command.
 * `$file` would instead try to expand a `Makefile` variable named `file`.
 
 In the context of your `Makefile`, `$$file` is a shell variable defined in the `for` loop,
 while `$file` wourld refer to a `Makefile` variable.
+
+== Syntax (`notdir`)
+
+The `notdir` function in `Makefile` is used to extract the file or directory names
+(without their preceding path) from a list of paths.
+
+In the selected line:
+
+[source, makefile]
+----
+CLI_TARGETS := $(notdir $(CLI_SUBDIRS))
+----
+
+* `$(CLI_SUBDIRS)` contains a list of subdirectory paths under `cli`
+(e.g., `cli/app1`, `cli/app2`).
+* `$(notdir ...)` removes the directory path, leaving only the base names (e.g., `app1`, `app2`).
+
+This effectively create a list of target names (CLI_TARGETS) corresponding to the subdirectories in `cli`.
+
+
