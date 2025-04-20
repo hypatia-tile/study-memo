@@ -1,3 +1,0 @@
-= C Programming language
-
-* link:note01.adoc[How to use Docker for C programming]
