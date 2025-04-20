@@ -1,31 +1,56 @@
-= How to use Docker for C programming
+= Docker container for C programming
 
-- link:note01_1.adoc[Benefits of using Docker for Learning C]
+* A Docker container that:
+** Has GCC or Clang, Make, GDB, Valgrind, etc.
+** Runs in the **background**(`-d` mode)
+** Mounts your project folder
+** Lets you send commands to it(compile/run/test) using your local editor or shell
 
-== Example: Simple C Development Docker Setup
+== How to Set It Up
 
-Here's a minimal `Dockerfile` to get you started:
+. Create a Dockerfile
++
 [source, dockerfile]
 ----
 FROM gcc:latest
 
-WORKDIR /app
+RUN apt-get update && \
+    apt-get install -y make gdb valgrind
 
-COPY . /app
-
-CMD [ "bash" ]
+WORKDIR /workspace
 ----
-
-And then:
++
+.Save that as `Dockerfile`, then:
 [source, bash]
 ----
 docker build -t c-dev .
-docker run -it --rm -v $(pwd):/app c-dev
 ----
-
-You'll be inside a container where you can compile and run your C program, like:
++
+.Run the Container in Background
 [source, bash]
 ----
-gcc hello.c -o hello
-./hello
+docker run -it --rm -v $(pwd):/workspace c-dev
 ----
++
+* `-d` → detached(background) mode
+* `-i` → keep STDIN open
+* `--rm` → remove the container after it exits
+* `-t` → allocate a pseudo-TTY
+* `-v $(pwd):/workspace` → mount the current directory to `/workspace` in the container
+
+. Execute Commands Inside the Container
++
+.To compile a file, for example:
+[source, bash]
+----
+docker exec -it c-dev gcc hello.c -o hello
+----
++
+.To run the output:
+[source, bash]
+----
+docker exec c-dev ./hello
+----
++
+You can even write a simple script (e.g., `run.sh`) that wrap `docker exec` for ease of use.
+
