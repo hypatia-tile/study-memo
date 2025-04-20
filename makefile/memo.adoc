@@ -1,0 +1,97 @@
+= Makefile syntax example
+
+== Example 1
+
+[source, makefile]
+----
+experiments:
+	@mkdir -p bin
+	@for file in $(wildcard $(EXPERIMENT_DIR)/*.c); do \
+  		name=$$(basename $$file .c); \
+  		echo "Compiling $$file -> bin/$$name"; \
+		gcc -o bin/$${target} $${file}; \
+	done
+----
+
+ This code defines the `experiments` target in the `Makefile`,
+ which complies all  `.c` files in the `experiments` directory
+ into executables stored in the `bin` directory.
+
+. Create the `bin` directory.
++
+[source, makefile]
+----
+@mkdir -p bin
+----
+Ensures the `bin` directory exists before placing compiled executables there.
+. Iterate over `.c` files:
++
+[source, makefile]
+----
+@for file in $(wildcard $(EXPERIMENT_DIR)/*.c); do \
+----
+Uses a `for` loop to process each `.c` file in the `experiments` directory.
+. Extract the file name without extension:
++
+[source, makefile]
+----
+name=$$(basename $$file .c); \
+----
+Extracts the base name of the file (without the `.c` extension) to use as the executable name.
+. Compile each file:
++
+[source, makefile]
+----
+gcc -o bin/$$(target) $$(file); \
+----
+Compiles the `.c` file into an executable named after the file and places it in the `bin` directory.
+. Log the compilation:
++
+[source, makefile]
+----
+echo "Compiling $$file -> bin/$$name"; \
+----
+Outputs a message indicating the file being compiled and its destination.
+. Note: +
+There is a potential issue with the variable `target` in teh `gcc` command,
+as it is not defined in the loop.
+It should be replaced with `name`
+
+== Example 2 (fix Example 1)
+
+To fix the issue and ensure that the compiled executable are stored in the `bin/experiments` directory,
+the `gcc` command and the `mkdir` command need to updated accordingly.
+Additionally, the undefined `target` variable in the `gcc` command should be replaced with the correct `name` variable.
++
+.Here is the corrected code:
+[source, makefile]
+----
+@mkdir -p bin/experiments
+    @for file in $(wildcard $(EXPERIMENT_DIR)/*.c); do \
+        name=$$(basename $$file .c); \
+        echo "Compiling $$file -> bin/experiments/$$name"; \
+        gcc -o bin/experiments/$$name $$file; \
+    done
+----
+Explanation of the Fixes:
+. Directory Creation: +
+Updated `mkdir` to create `bin\experiments/` directory instead of just `bin/`.
+. Output Path: +
+Updated the `gcc` command to place the compiled executable in `bin/experiments/` using the `name` variable.
+. Variable Fix: +
+Replaced the undefined `target` variable with the correct `name` variable in the `gcc` command.
+
+== Sysntax (`$$` vs `$`)
+
+In `Makefile` syntax, the `$$` is used to escape the `$` character.
+This is necessary because `$` is a special character in `Makefile`
+used for variable expansion.
+When you want to use a literal `$` in shell commands within a `Makefile`,
+you need to escape it by doubling it (`$$`).
+
+.For example:
+* `$$file` refers to the shell variable `file` in a `Makefile` command.
+* `$file` would instead try to expand a `Makefile` variable named `file`.
+
+In the context of your `Makefile`, `$$file` is a shell variable defined in the `for` loop,
+while `$file` wourld refer to a `Makefile` variable.
