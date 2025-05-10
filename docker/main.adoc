@@ -2,6 +2,6 @@
 
 == Table of Contents
 
-* xref:main.adoc#docker[Docker]
-* xref:installation_and_usage/main.adoc[Installation and usage]
-* xref:why_docker/main.adoc[Why Docker]
+* link:installation_and_usage/main.adoc[Installation and usage]
+// * xref:main.adoc#docker[Docker]
+// * xref:why_docker/main.adoc[Why Docker]
