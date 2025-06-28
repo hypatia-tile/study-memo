@@ -1,0 +1,49 @@
+= Note 2025-05-25
+
+== Haskell
+
+To install `random` package using `cabal`, you can run the following command in your terminal:
+
+[source, bash]
+----
+cabal install random
+----
+
+This will download and install the `random` package into your environment.
+If you're working on a specific project,
+ensure you're in the project's root directory and that the package is added to your `.cabal` file or
+`cabal.project` file as a dependency.
+
+Four example, in your `.cabal` file, under the `build-depends` section of your executable or library, add:
+[source, yaml]
+----
+build-depends: base >= 4.14 && <5, random >= 1.2
+----
+
+After updating the `.cabal` file, run:
+[source, bash]
+----
+cabal build
+----
+
+This ensures the package is properly integrated into your project.
+
+=== random
+
+[source, haskell]
+----
+shuffle :: [a] -> IO [a]
+shuffle [] = return []
+shuffle xs = do
+  n <- getStdRandom $ randomR (0, length xs - 1) :: IO Int
+  xs' <- shuffle $ take n xs ++ drop (n + 1) xs
+  return $ (xs !! n) : xs'
+----
+
+This line of Haskell code generates a random integer within a specific range and binds it to the variable `n`.
+Let's break it down:
+
+* `getStdRandom` is a function that takes a random number generator action and returns an IO value,
+ensuring the result is produced with side effects (since randomness is inherently inpure in Haskell).
+* `randomR (0, length xs - 1)` is a random number generator action that will produce a random integer
+between `0` and the last valid index of the list `xs` (inclusive). This is usuful when you want to select a random element from `xs`.
