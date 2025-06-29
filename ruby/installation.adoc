@@ -1,0 +1,115 @@
+= Ruby installation
+
+== Ruby installation on macOS
+
+=== What we are going to do
+
+. Use the package manager (Homebrew) to install Ruby
+. Update our PATH
+. Write and run our first Ruby program
+
+== Digression: Homebrew and Ruby
+
+Homebrew is a package manager for macOS that simplifies the installation of software on the Mac operating system.
+It allows us to insall Ruby and other software easily.
+
+[source, text]
+====
+Hold on! What's a package manager?
+A package manager is an application whose job is to manage the software on our computer.
+In this case, managing means installing, updating, and removing software as needed.
+Package managers will install software in a consistent manner and keep our computer tidy.
+
+As it turns out, macOS has an awesome package manager called Hombrew.
+====
+
+Ironically, Homebrew is written in Ruby.
+
+== Install Ruby using Homebrew
+
+[source, zsh]
+----
+brew install ruby
+----
+
+== Update PATH
+
+.Digression: A brief look at how Homebrew installs programs
+====
+Remember earlier when I mentioned
+that package managers like Homebrew keep our machine tidy by installing things in a consistent manner?
+This output relates to that bit of information.
+When Homebrew installs a package,
+it will actually install it in a directory that Homebrew owns.
+// How about apt?
+
+We mentioned that `usr/bin` is for the distribution of executable files.
+There's another directory, `usr/local/bin`, that was created by Homebrew when it was installed.
+Homebrew actually makes a directory named `Cellar` inside this directory.
+Homebrew will install packages insto the `Cellar` and then make symlinks from those packages into `/usr/local/bin`
+that are available to us.
+A symlink, or symbolic link, is a special type of file that acts as a redirect to where the actual file lives.
+This allows Homebrew to be selective about what executables it makes available.
+
+What does that mean for us?
+It means that that the newer version of Ruby is installed,
+but Homebrew isn't going to put it on the PATH for us.
+It's not going to do thi because of the existing version of Ruby living in `/usr/bin`.
+It tells us how to fix this situation by modifying our PATH.
+====
+
+We need to add the Homebrew Ruby directory to our PATH.
+Homebrew tells us how to do this in the output of the `brew info ruby` command.
+
+[source, zsh]
+----
+brew info ruby
+==> ruby: stable 3.4.4 (bottled), HEAD [keg-only]
+Powerful, clean, object-oriented scripting language
+https://www.ruby-lang.org/
+Installed
+/opt/homebrew/Cellar/ruby/3.4.4 (20,480 files, 57.4MB)
+  Poured from bottle using the formulae.brew.sh API on 2025-05-25 at 10:52:56
+From: https://github.com/Homebrew/homebrew-core/blob/HEAD/Formula/r/ruby.rb
+License: Ruby
+==> Dependencies
+Build: autoconf ✔, pkgconf ✔, rust ✘
+Required: libyaml ✔, openssl@3 ✔
+==> Options
+--HEAD
+	Install HEAD version
+==> Caveats
+By default, binaries installed by gem will be placed into:
+  /opt/homebrew/lib/ruby/gems/3.4.0/bin
+
+You may want to add this to your PATH.
+
+ruby is keg-only, which means it was not symlinked into /opt/homebrew,
+because macOS already provides this software and installing another version in
+parallel can cause all kinds of trouble.
+
+If you need to have ruby first in your PATH, run:
+  echo 'export PATH="/opt/homebrew/opt/ruby/bin:$PATH"' >> ~/.zshrc
+
+For compilers to find ruby you may need to set:
+  export LDFLAGS="-L/opt/homebrew/opt/ruby/lib"
+  export CPPFLAGS="-I/opt/homebrew/opt/ruby/include"
+
+For pkg-config to find ruby you may need to set:
+  export PKG_CONFIG_PATH="/opt/homebrew/opt/ruby/lib/pkgconfig"
+==> Analytics
+install: 49,516 (30 days), 183,353 (90 days), 783,764 (365 days)
+install-on-request: 20,065 (30 days), 79,015 (90 days), 334,081 (365 days)
+build-error: 35 (30 days)
+----
+
+The simple solution is to add the line
+[source, zsh]
+----
+echo 'export PATH="/opt/homebrew/opt/ruby/bin:$PATH"' >> ~/.zshrc
+----
+
+[.bibliography]
+== Bibliography
+
+* https://stackify.com/install-ruby-on-your-mac-everything-you-need-to-get-going/
