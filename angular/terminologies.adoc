@@ -1,0 +1,10 @@
+= Terminologies in Angular
+
+[cols="1,2", options="header"]
+|===
+| Term | Summary
+
+| directive
+| Directives are classes that add additional behavior to elements in Angular applications.
+
+|===

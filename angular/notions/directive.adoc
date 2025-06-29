@@ -1,0 +1,23 @@
+= Directive
+
+Directives are classes that add additional behavior to elements in Angular applications.
+
+== Types of Angular Directives
+
+[cols="1,2", options="header"]
+|===
+| Directive Types | Details
+
+| Component
+| Used with a template. This type of directives is the most common directive type.
+
+| Attribute directives
+| Change the appearance or behavior of an element, component, or another directive.
+
+|===
+
+== Examples of Angular Directives
+
+[.bibliography]
+== Bibliography
+* link:https://angular.dev/guide/directives[Angular Directives]

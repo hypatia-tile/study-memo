@@ -2,17 +2,18 @@
 
 == router-outlet
 
-In Angular, `router-outlet` is a link:directive[directive] provided by the Angular Router module.
+In Angular, `router-outlet` is a `directive`
+provided by the Angular Router module.
 It acts as a placeholder in your application
 where the routed components are dynamically loaded based on the current route configuration.
 
 Key Points About `router-outlet`:
 
 . Dynamic Component Loading: +
-It renders the component associated with the link:activeRoute[active route].
+It renders the component associated with the `activeRoute`.
 . Routing Configuration: +
 The routes are defined in a routing module (e.g., `app-routing.ts`),
-andd the `router-outlet` displays the component for the matched route.
+and the `router-outlet` displays the component for the matched route.
 . Multiple Outlets: +
 You can have multiple `router-outlet` directives
 in your application,
@@ -24,22 +25,22 @@ each with a unique name for advanced routing scenarios.
 ** Example:
 +
 [source, typescript]
-----
+---
 import { Routes } from '@angular/router';
 import { TestPageComponent } from './test-page/test-page.component';
 
 export const routes: Routes = [
     { path: 'test-page', component: TestPageComponent }
 ];
-----
+---
 . app.component.html:
 ** Contains the `router-outlet` directive where routed components are displayed.
 ** Example:
 +
 [source, html]
-----
+---
 <router-outlet></router-outlet>
-----
+---
 . app.component.ts:
 ** The root component of your application,
 which includes the `RouterOutlet` in its `imports` array
@@ -82,10 +83,3 @@ where the Angular app is bootstrapped.
 </body>
 </html>
 ----
-
-
-[reftext = "directive"]
-== directive
-
-[reftext = "activeRoute"]
-== active route
