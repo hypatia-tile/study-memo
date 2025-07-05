@@ -1,7 +1,0 @@
-= Test Note With TOC
-:toc:
-:icons: font
-:date: 2025-07-05
-:tags: draft
-
-Write your note here.
