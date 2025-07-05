@@ -1,311 +1,202 @@
-// ---- main.adoc ----
-= SSH (Secure Shell)
+= SSH Notes
+:toc:
+:icons: font
 
-SSH (Secure Shell) is a cryptographic network protocol for operating network services securely over an unsecured network.
+== SSH Key Generation
 
-* The best-known example application of SSH is for remote login to computer systems by users. +
-SSH provides a secure channel over an unsecured network in a client-server architecture, connecting an SSH client application with an SSH server.
+To generate an SSH key pair:
 
-== commands
-
-[source,sh]
-----
-eval "$(ssh-agent -s)"
-----
-
-This command starts the SSH agent in the background and sets the necessary environment variables for the current shell session.
-
-. The `eval` command executes the output of the `ssh-agent -s` command in the current shell, which includes the necessary environment variables to communicate with the SSH agent.
-. The `ssh-agent` command is a program that holds private keys used for public key authentication (RSA, DSA, ECDSA, ED25519)
-and manages the keys for SSH sessions.
-. The `-s` option specifies that the output should be in a format suitable for Bourne-compatible shells (like bash or zsh).
-
-The `eval` command is necessary because the `ssh-agent` command outputs shell commands that set environment variables,
-and `eval` allows those commands to be executed in the current shell context.
-
-Typically, you would run this command in your terminal to start the SSH agent and set up the environment variables needed for SSH authentication.
-Output of the command will look like this:
-
-[source,sh]
-----
-SSH_AUTH_SOCK=/tmp/ssh-XXXXXX/agent.YYYYYY; export SSH_AUTH_SOCK;
-SSH_AGENT_PID=ZZZZZZ; export SSH_AGENT_PID;
-echo Agent pid ZZZZZZ;
-----
-
-After running this command,
-you can add your SSH private key to the agent using the `ssh-add` command.
-
-[source,sh]
-----
-ssh-add ~/.ssh/id_rsa
-----
-
-This command adds the private key located at `~/.ssh/id_rsa` to the SSH agent.
-
-=== Check if you already have SSH keys
-
-First, check if you already have SSH keys on your machine.
-If you have already generated SSH keys, you will find them in the `~/.ssh` directory.
-
-[source,sh]
-----
-ls -al ~/.ssh
-----
-
-If you might see files like `id_rsa` and `id_rsa.pub`, it means you already have SSH keys.
-
-[cols="1,1", options="header"]
-|===
-
-| File | Description
-| `id_rsa` | Your private key. Keep it secret and secure. Never share this file with anyone.
-| `id_rsa.pub` | Your public key. This is the key you can share with others or add to your GitHub account.
-|===
-
-If you don't see these files, you can generate a new SSH key pair.
-
-=== Generate a new SSH key pair
-
-If you don't have SSH keys or want to generate a new pair,
-you can use following command to create a new SSH key pair.
-
-[source,sh]
+[source,shell]
 ----
 ssh-keygen -t rsa -b 4096 -C "your_email@example.com"
 ----
 
-This command generates a new SSH key using the RSA algorithm with a key size of 4096 bits.
+This creates:
 
-== The command:
+- A private key (`~/.ssh/id_rsa`)
+- A public key (`~/.ssh/id_rsa.pub`)
 
-```bash
+You can specify a custom file name with `-f`:
+
+[source,shell]
+----
+ssh-keygen -t rsa -b 4096 -f ~/.ssh/custom_key
+----
+
+== Adding Public Key to Remote Server
+
+Append your public key to the `authorized_keys` file on the remote server:
+
+[source,shell]
+----
+ssh-copy-id -i ~/.ssh/id_rsa.pub username@remote_host
+----
+
+Or manually:
+
+[source,shell]
+----
+cat ~/.ssh/id_rsa.pub | ssh username@remote_host "mkdir -p ~/.ssh && chmod 700 ~/.ssh && cat >> ~/.ssh/authorized_keys"
+----
+
+== SSH Agent
+
+Start the SSH agent and add your key:
+
+[source,shell]
+----
 eval "$(ssh-agent -s)"
-```
-
-is used in Unix-like systems (like Linux or macOS) to start the SSH agent in the background and set the environment variables needed for it to work.
-
-=== Here's what it does:
-- `ssh-agent -s`: starts the SSH agent and outputs shell commands to set up the environment (like `SSH_AUTH_SOCK` and `SSH_AGENT_PID`).
-- `eval "$(ssh-agent -s)"`: evaluates and executes those output commands in your current shell session, so your shell knows how to talk to the agent.
-
-=== Typical output:
-```bash
-Agent pid 12345
-```
-
-After that, you can add your private SSH key with:
-
-```bash
 ssh-add ~/.ssh/id_rsa
-```
+----
 
-Let me know if you're trying to do something specific with SSH—I can help walk you through it.
+To list loaded keys:
 
-== register SSH key on GitHub using my Mac
+[source,shell]
+----
+ssh-add -l
+----
 
-Great! Let’s go step by step to register your SSH key on GitHub using your Mac.
+== Configuring `~/.ssh/config`
 
----
+Create or edit `~/.ssh/config` to simplify connections:
 
-=== ✅ Step 1: Check if you already have an SSH key
+[source,sshconfig]
+----
+Host myserver
+    HostName example.com
+    User myuser
+    IdentityFile ~/.ssh/id_rsa
+    Port 22
+    ForwardAgent yes
+----
 
-Open Terminal and run:
+Usage:
 
-```bash
-ls -al ~/.ssh
-```
+[source,shell]
+----
+ssh myserver
+----
 
-If you see files like `id_ed25519` and `id_ed25519.pub` or `id_rsa` and `id_rsa.pub`, you already have an SSH key pair. If not, move to Step 2.
+== Port Forwarding
 
----
+=== Local Port Forwarding
 
-=== ✅ Step 2: Generate a new SSH key (if needed)
+Forward a local port to a remote address:
 
-Use this command (recommended: `ed25519`):
+[source,shell]
+----
+ssh -L local_port:remote_host:remote_port user@ssh_server
+----
 
-```bash
-ssh-keygen -t ed25519 -C "your-email@example.com"
-```
+Example:
 
-If you're using an older system that doesn’t support `ed25519`, use:
+Forward `localhost:8080` to `remote_host:80` via `ssh_server`:
 
-```bash
-ssh-keygen -t rsa -b 4096 -C "your-email@example.com"
-```
+[source,shell]
+----
+ssh -L 8080:remote_host:80 user@ssh_server
+----
 
-Press Enter to accept the default file location (`~/.ssh/id_ed25519`) and optionally add a passphrase.
+=== Remote Port Forwarding
 
----
+Expose a local port to the remote server:
 
-=== ✅ Step 3: Add the key to the SSH agent
+[source,shell]
+----
+ssh -R remote_port:localhost:local_port user@ssh_server
+----
 
-First, start the agent:
+Example:
 
-```bash
-eval "$(ssh-agent -s)"
-```
+Allow connections to `ssh_server:9090` to reach your local `localhost:3000`:
 
-Then add the key:
+[source,shell]
+----
+ssh -R 9090:localhost:3000 user@ssh_server
+----
 
-```bash
-ssh-add --apple-use-keychain ~/.ssh/id_ed25519
-```
+== SSH Tunneling for SOCKS Proxy
 
-(If you're using `id_rsa`, change the file name accordingly.)
+Create a dynamic port forwarding (SOCKS proxy):
 
----
+[source,shell]
+----
+ssh -D 1080 user@ssh_server
+----
 
-=== ✅ Step 4: Copy the public key
+Configure your browser to use SOCKS5 `localhost:1080`.
 
-Copy your public key to the clipboard:
+== SSH Key Permissions
 
-```bash
-pbcopy < ~/.ssh/id_ed25519.pub
-```
+Verify and fix permissions:
 
----
+[source,shell]
+----
+chmod 700 ~/.ssh
+chmod 600 ~/.ssh/id_rsa
+chmod 644 ~/.ssh/id_rsa.pub
+chmod 600 ~/.ssh/authorized_keys
+----
 
-=== ✅ Step 5: Add the key to your GitHub account
+== Troubleshooting
 
-. Go to [GitHub SSH Settings](https://github.com/settings/keys)
-. Click **"New SSH key"**
-. Add a **Title** (e.g. "MacBook Air") and **paste** the key into the "Key" field
-. Click **Add SSH key**
+*Verbose output*:
 
----
+[source,shell]
+----
+ssh -v user@host
+----
 
-=== ✅ Step 6: Test the connection
+*Known hosts mismatch*:
 
-```bash
-ssh -T git@github.com
-```
+Remove old key:
 
-If it’s working, you’ll see something like:
+[source,shell]
+----
+ssh-keygen -R host
+----
 
-```
-Hi your-username! You've successfully authenticated, but GitHub does not provide shell access.
-```
+Then connect again.
 
----
+== Copy Files via SCP
 
-Would you like help with converting an HTTPS Git remote to SSH as well?
+Copy a local file to a remote server:
 
-== In step 3 
+[source,shell]
+----
+scp localfile user@remote_host:/path/to/destination
+----
 
-Great question!
+Copy a remote file to your machine:
 
-=== 🔐 What is a Passphrase?
+[source,shell]
+----
+scp user@remote_host:/path/to/file localdir/
+----
 
-A **passphrase** is like a **password** for your SSH private key.
+== Multiplexing Connections
 
-When you generate an SSH key pair (like `id_ed25519`), you get:
+Speed up connections by reusing the same SSH session:
 
-- A **private key** (`~/.ssh/id_ed25519`) — your secret identity.
-- A **public key** (`~/.ssh/id_ed25519.pub`) — you share this with GitHub.
+Edit `~/.ssh/config`:
 
-The **passphrase** protects your **private key**. Even if someone gets access to your file, they can’t use it without the passphrase.
+[source,sshconfig]
+----
+Host *
+    ControlMaster auto
+    ControlPath ~/.ssh/cm_socket/%r@%h:%p
+    ControlPersist 10m
+----
 
----
+Create the socket directory:
 
-=== 🧠 Why Use a Passphrase?
+[source,shell]
+----
+mkdir -p ~/.ssh/cm_socket
+----
 
-- ✅ Adds an extra layer of security.
-- 🧷 Prevents others from using your key even if they steal your laptop.
+== Additional Resources
 
----
-
-=== 🛠️ What if You Didn’t Set a Passphrase?
-
-- You can press `Enter` when prompted during key generation to skip it.
-- Your key will work, but **anyone who gets that file can use it freely.**
-
----
-
-=== 🔄 Example When Generating a Key
-
-```bash
-$ ssh-keygen -t ed25519 -C "you@example.com"
-Generating public/private ed25519 key pair.
-Enter file in which to save the key (/Users/you/.ssh/id_ed25519): [Enter]
-Enter passphrase (empty for no passphrase): mySecretPhrase
-Enter same passphrase again: mySecretPhrase
-```
-
-You can leave it blank if you don’t want one — just press Enter twice.
-
----
-
-Would you like to **remove the passphrase** from your current key, or keep it and store it in your Mac's Keychain so you don’t have to type it every time?
-
-== something wrong with passphrase
-
-Ah, I see! Sounds like you **accidentally set a passphrase** when generating the SSH key, maybe by typing something without realizing it.
-
-No worries — let’s figure it out.
-
----
-
-=== 🚨 If you don't know or remember your passphrase:
-
-Unfortunately, there's **no way to recover a forgotten SSH passphrase**. The private key is encrypted with it.
-
-But here’s what you can do:
-
----
-
-== ✅ Option 1: Delete the key and create a new one (without a passphrase)
-
-If you don’t need the current key (e.g. you haven’t added it to GitHub yet), you can just delete it and make a new one.
-
-=== 🔄 Steps:
-
-. **Delete the old keys**:
-
-```bash
-rm ~/.ssh/id_ed25519 ~/.ssh/id_ed25519.pub
-```
-
-. **Generate a new key without passphrase**:
-
-```bash
-ssh-keygen -t ed25519 -C "your-email@example.com"
-```
-
-When prompted:
-
-```
-Enter passphrase (empty for no passphrase):
-```
-
-Just **press Enter** twice (once to leave it empty, once to confirm).
-
-. **Add it to your SSH agent**:
-
-```bash
-ssh-add --apple-use-keychain ~/.ssh/id_ed25519
-```
-
-. **Copy and add the new public key to GitHub**:
-
-```bash
-pbcopy < ~/.ssh/id_ed25519.pub
-```
-
-Then go to [https://github.com/settings/keys](https://github.com/settings/keys) and paste it in.
-
----
-
-== ✅ Option 2: Try to guess the passphrase
-
-If you want to keep the existing key (e.g. it's already added to GitHub), you can try adding it again:
-
-```bash
-ssh-add --apple-use-keychain ~/.ssh/id_ed25519
-```
-
-And try a few passwords you commonly use. But again, there’s no recovery — if you can’t guess it, you’ll need to create a new key.
-
----
-
-Would you like to go ahead and delete the current key and start fresh? I can guide you exactly.
+- `man ssh`
+- `man ssh_config`
+- `man ssh-keygen`
