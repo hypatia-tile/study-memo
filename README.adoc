@@ -34,20 +34,97 @@ This repository is a living system for capturing, structuring, and evolving my p
     python3 scripts/generate_index_and_knowledge_graph.py
     ----
 
-== How to Add and Integrate Topic Notes
+== How to Add and Integrate Topic Notes (Modular Workflow)
 
-1. **Create a new topic folder** in `notes/` (e.g., `notes/mytopic/`).
-2. **Add a `main.adoc`** file and any other `.adoc` files in that folder.
-3. **Integrate all notes in the topic folder** into a single file with:
+1. **Work in the `draft/` directory**: Create a new topic folder in `draft/` (e.g., `draft/mytopic/`).
+2. **Add a `main.adoc`** file and any other `.adoc` files in that folder. You can use the modular script:
 
     [source, shell]
     ----
-    python3 scripts/integrate_topic.py notes/mytopic
+    python3 scripts/note_manager.py draft draft/mytopic "Optional Title"
+    ----
+
+3. **Integrate all notes in the topic folder** into a single file in `notes/` with:
+
+    [source, shell]
+    ----
+    python3 scripts/note_manager.py integrate draft/mytopic
     ----
 
    This will create (or overwrite) `notes/mytopic.adoc` with the integrated content.
 4. **Review and edit the integrated file** for structure and clarity.
-5. **Remove the original topic folder** if you want to keep the notes directory tidy.
+5. **Remove the original topic folder in `draft/`** if you want to keep things tidy.
+
+== Draft Note Template
+
+To quickly create a new draft note:
+
+[source, shell]
+----
+python3 scripts/note_manager.py draft draft/mytopic "My Note Title"
+----
+
+This will create a timestamped `.adoc` file in the specified draft topic folder, with a title and metadata.
+
+== Script Usage
+
+- Create a draft note:
+  [source, shell]
+  ----
+  python3 scripts/note_manager.py draft draft/mytopic "My Note Title"
+  ----
+- Integrate a topic:
+  [source, shell]
+  ----
+  python3 scripts/note_manager.py integrate draft/mytopic
+  ----
+
+== How to Use the Note Manager (All-in-One Script)
+
+The `note_manager.py` script now provides all note management features:
+
+- **Create a draft note**
+- **Integrate a topic**
+- **Generate index and knowledge graph**
+- **Detect multiple top-level titles**
+- **Interactive menu for all features**
+
+=== Example Usage
+
+- Create a draft note:
+  [source, shell]
+  ----
+  python3 scripts/note_manager.py draft draft/mytopic "My Note Title"
+  ----
+- Integrate a topic:
+  [source, shell]
+  ----
+  python3 scripts/note_manager.py integrate draft/mytopic
+  ----
+- Interactive mode:
+  [source, shell]
+  ----
+  python3 scripts/note_manager.py interactive
+  ----
+
+=== Advanced Features (to be run from the command line or added to interactive menu)
+
+- Generate index and knowledge graph:
+  [source, python]
+  ----
+  # Example (add to controller or run in Python REPL)
+  notes_dir = 'notes'
+  root_dir = '.'
+  notes = NoteModel.find_notes(notes_dir)
+  notes_meta = [NoteModel.extract_metadata(note, root_dir) for note in notes]
+  NoteModel.generate_index(notes_meta, 'index.adoc')
+  NoteModel.generate_knowledge_graph(notes_meta, 'knowledge-graph.json', abs_out_path='.knowledge-graph-abs.json', abs_paths=notes)
+  ----
+- Detect multiple top-level titles:
+  [source, python]
+  ----
+  NoteModel.detect_multiple_titles('notes')
+  ----
 
 == Automation
 
