@@ -1,0 +1,68 @@
+// ---- note01.adoc ----
+= Docker container for C programming
+
+* A Docker container that:
+** Has GCC or Clang, Make, GDB, Valgrind, etc.
+** Runs in the **background**(`-d` mode)
+** Mounts your project folder
+** Lets you send commands to it(compile/run/test) using your local editor or shell
+
+== How to Set It Up
+
+. Create a Dockerfile
++
+[source, dockerfile]
+----
+FROM gcc:latest
+
+RUN apt-get update && \
+    apt-get install -y make gdb valgrind
+
+WORKDIR /workspace
+----
++
+.Save that as `Dockerfile`, then:
+[source, bash]
+----
+docker build -t c-dev .
+----
++
+.Run the Container in Background
+[source, bash]
+----
+docker run -it --rm -v $(pwd):/workspace c-dev
+----
++
+* `-d` → detached(background) mode
+* `-i` → keep STDIN open
+* `--rm` → remove the container after it exits
+* `-t` → allocate a pseudo-TTY
+* `-v $(pwd):/workspace` → mount the current directory to `/workspace` in the container
+
+. Execute Commands Inside the Container
++
+.To compile a file, for example:
+[source, bash]
+----
+docker exec -it c-dev gcc hello.c -o hello
+----
++
+.To run the output:
+[source, bash]
+----
+docker exec c-dev ./hello
+----
++
+You can even write a simple script (e.g., `run.sh`) that wrap `docker exec` for ease of use.
+
+
+
+// ---- blackboard.adoc ----
+== Blackboard
+
+=== TODO
+
+==== Investigate
+
+* What is `extern`?
+

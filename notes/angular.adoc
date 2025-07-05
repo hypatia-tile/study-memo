@@ -1,0 +1,178 @@
+// ---- todo.adoc ----
+= TODO
+
+== Investigation
+
+In this section, we list the notions we are going to investigate.
+
+* [ ] What is directive?
+
+== Practice
+
+In this section, we list what we are going to practice for the fundamental knowledge.
+
+* [ ] Create a simple Angular application.
+* [ ] Create a simple directive.
+* [ ] Use the directive in the application.
+
+// ---- memo.adoc ----
+== Angular memo
+
+=== router-outlet
+
+In Angular, `router-outlet` is a `directive`
+provided by the Angular Router module.
+It acts as a placeholder in your application
+where the routed components are dynamically loaded based on the current route configuration.
+
+Key Points About `router-outlet`:
+
+. Dynamic Component Loading: +
+It renders the component associated with the `activeRoute`.
+. Routing Configuration: +
+The routes are defined in a routing module (e.g., `app-routing.ts`),
+and the `router-outlet` displays the component for the matched route.
+. Multiple Outlets: +
+You can have multiple `router-outlet` directives
+in your application,
+each with a unique name for advanced routing scenarios.
+
+.Related Files
+. app.routes.ts:
+** This file defines the route configurations for your application.
+** Example:
++
+[source, typescript]
+---
+import { Routes } from '@angular/router';
+import { TestPageComponent } from './test-page/test-page.component';
+
+export const routes: Routes = [
+    { path: 'test-page', component: TestPageComponent }
+];
+---
+. app.component.html:
+** Contains the `router-outlet` directive where routed components are displayed.
+** Example:
++
+[source, html]
+---
+<router-outlet></router-outlet>
+---
+. app.component.ts:
+** The root component of your application,
+which includes the `RouterOutlet` in its `imports` array
+if using standalone components.
+** Example:
++
+[source, typescript]
+----
+import { RouterOutlet } from '@angular/router';
+
+@Component({
+    selector: 'app-root',
+    standalone: true,
+    imports: [RouterOutlet],
+    templateUrl: './app.component.html',
+    styleUrls: ['./app.component.css']
+})
+export class AppComponent {
+    title = 'my-angular-app';
+}
+----
+. index.html:
+** The entry of your application, which contains the `<app-root></app-root>` tag.
+where the Angular app is bootstrapped.
+** Example:
++
+[source, html]
+----
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Angular App</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <app-root></app-root>
+    <script src="main.js"></script>
+</body>
+</html>
+----
+
+
+// ---- terminologies.adoc ----
+== Terminologies in Angular
+
+[cols="1,2", options="header"]
+|===
+| Term | Summary
+
+| directive
+| Directives are classes that add additional behavior to elements in Angular applications.
+
+|===
+
+// ---- memo2.adoc ----
+== Getting started with Bootstrap in Angular
+
+You need to include the Bootstrap library and apply its classes in your components.
+Here's a brief guid:
+
+. Install Bootstrap via npm: +
+Run the following command in your project directory to install Bootstrap:
++
+[source, bash]
+----
+npm install bootstrap
+----
+. Include Bootstrap in `angular.json`: +
+Add the Bootstrap CSS file to the `styles`` array in the `angular.json` file:
++
+[source, json]
+----
+"styles": [
+    "node_modules/bootstrap/dist/css/bootstrap.min.css",
+    "src/styles.css"
+]
+----
+. Use Bootstrap classes in your component: +
+In your `testPage.component.css`, you don't need to write custom styles initially.
+Instead, you can use Bootstrap classes direectly in your HTML template.
+For example:
++
+[source, html]
+----
+<div>
+    <h1 class="text-center">Welcome to Bootstrap</h1>
+    <button class="btn btn-primary">Click Me</button>
+</div>
+----
+This approach allows you to leverage Bootstrap's pre-defined styles and components without writing custom CSS.
+
+
+
+
+// ---- memo3.adoc ----
+== `*ngFor` Directive
+
+=== If `*ngFor` is not working
+
+If `*ngFor` is not working in your Angular project,
+here are some common issues and theri solutions:
+
+. Missing `CommonModule`: +
+The `*ngFor` directive is part of the `CommonModule`.
+if you are using standalone components,
+ensure that `CommonModule` is imported in your component.
++
+.Solution: Update your `TestPageComponent` to import `CommonModule`: +
+[source, typescript]
+----
+import { Component, ViewEncapsulation } from '@angular/core';
+import { CommonModule } from '@angular/common';
+...
+----
+
