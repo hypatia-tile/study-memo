@@ -4,16 +4,18 @@ from glob import glob
 from datetime import datetime
 
 NOTES_DIR = 'notes'
+DRAFT_BASE = 'draft'
 
 # --- Model ---
 class NoteModel:
     @staticmethod
     def create_draft(draft_dir, title=None):
-        if not os.path.exists(draft_dir):
-            os.makedirs(draft_dir)
+        full_draft_dir = os.path.join(DRAFT_BASE, draft_dir)
+        if not os.path.exists(full_draft_dir):
+            os.makedirs(full_draft_dir)
         date_str = datetime.now().strftime('%Y%m%d_%H%M%S')
         filename = f'note_{date_str}.adoc'
-        filepath = os.path.join(draft_dir, filename)
+        filepath = os.path.join(full_draft_dir, filename)
         if title is None:
             title = 'Draft Note'
         content = f"= {title}\n:toc:\n:icons: font\n:date: {datetime.now().strftime('%Y-%m-%d')}\n:tags: draft\n\nWrite your note here.\n"
