@@ -1,67 +1,101 @@
-// ---- main.adoc ----
-= Installation and Usage of MacTex
+= Installing and Using MacTeX on macOS
+:toc:
+:icons: font
+
+== Overview
+
+MacTeX is a TeX distribution for macOS that includes TeX Live, LaTeX, Ghostscript, and related tools.
 
 == Installation
 
-=== Download MacTex
+=== 1. Download MacTeX
 
-Download the MacTex package from the official website: https://www.tug.org/mactex/mactex-download.html
+Download the latest version from the official site:
 
-MacTeX-2025 requires macOS 10.14 or higher.
-These systems are named Mojave, Catalina, Big Sur, Monterey, Ventura, Sonoma, and Sequoia.
-It runs natively on both Arm and Intel machines.
-The same source code is used to compile both types of code, so Apple's Arm and Intel machines are on exactly the same footing.
-All install packages are developer-signed and notarized by Apple.
+link:https://www.tug.org/mactex/mactex-download.html[MacTeX Download Page]
 
-=== Install MacTex
+Requirements:
 
-After downloading, move the file MacTeX.pkg to the desktop or another convenient spot, and double click it to install. Follow the straightforward instructions. 
-Users who use MacPorts or HomeBrew may prefer to use the Ghostscript provided by these projects
-and should use "Customize" to disable Ghostscript installation.
+- macOS 10.14 or later (Mojave, Catalina, Big Sur, Monterey, Ventura, Sonoma, Sequoia)
+- Native support for both Apple Silicon (ARM) and Intel chips
+- Installer is developer-signed and notarized by Apple
 
-Near the end of installation, there will be a a pause when nothing seems to happen.
-During this pause, TeX Live creates format files for the typesetting engines.
+=== 2. Install the Package
 
-=== Installation of Ghostscript
+. Move `MacTeX.pkg` to your desktop or another convenient location.
+. Double-click the file and follow the on-screen instructions.
 
-Ghostscript is a suite of software that provides an interpreter for the PostScript language and the PDF file format.
-It is used by TeX Live to convert PostScript files to PDF and vice versa.
-Ghostscript is included in the MacTeX distribution, but if you are using MacPorts or HomeBrew, you may want to install Ghostscript from there.
-Ghostscript is also available from the official website: https://www.ghostscript.com/download/gsdnld.html
-Ghostscript is a free and open-source software suite that is used for processing PostScript and PDF files.
-It is widely used in the TeX community for converting PostScript files to PDF and vice versa.
-Ghostscript is a powerful tool that can be used for a variety of tasks, including:
-* Converting PostScript files to PDF
-* Converting PDF files to PostScript
-* Merging multiple PDF files into a single PDF file
-* Splitting a PDF file into multiple PDF files
-* Extracting text and images from PDF files
-* Compressing PDF files
-* Encrypting and decrypting PDF files
-* Adding watermarks to PDF files
-* Converting PDF files to other formats, such as TIFF, PNG, and JPEG
+.Optional: Skip Ghostscript
+If you are using Ghostscript via MacPorts or Homebrew, you may want to skip installing it again:
 
-We install Ghostscript using HomeBrew.
+- Choose "Customize" during installation
+- Uncheck the Ghostscript option
 
-[source, shell]
+=== 3. Confirm Installation
+
+After installation, confirm that `pdflatex` and other binaries are available:
+
+[source,shell]
 ----
-brew install ghostscript
+which pdflatex
+pdflatex --version
 ----
 
-== Usage
+== Setting Up PATH (if needed)
 
-=== Basic Usage
+MacTeX installs binaries in `/Library/TeX/texbin`.
 
-The basic usage of MacTeX is to use the command line to compile TeX files into PDF files.
-The command to compile a TeX file is:
-[source, shell]
+If it's not in your shell's PATH, add the following to your `~/.zshrc` or `~/.bash_profile`:
+
+[source,shell]
 ----
-pdflatex filename.tex
+export PATH="/Library/TeX/texbin:$PATH"
 ----
-This command will create a PDF file with the same name as the TeX file.
 
+Apply changes:
 
-== Next todo
+[source,shell]
+----
+source ~/.zshrc
+----
 
-link:https://github.com/James-Yu/LaTeX-Workshop/wiki/Install#using-docker[Install LaTeX Workshop using Docker]
+== Writing and Compiling LaTeX
 
+Create a basic file `hello.tex`:
+
+[source,latex]
+----
+\documentclass{article}
+\begin{document}
+Hello, \LaTeX!
+\end{document}
+----
+
+Compile it:
+
+[source,shell]
+----
+pdflatex hello.tex
+----
+
+This produces `hello.pdf`.
+
+== Tips and Tools
+
+- For editing, consider using:
+  * VS Code with LaTeX Workshop extension
+  * TeXShop (bundled with MacTeX)
+  * Overleaf (web-based)
+
+- Use `latexmk` for automatic compilation.
+
+[source,shell]
+----
+latexmk -pdf hello.tex
+----
+
+== References
+
+- link:https://tug.org/mactex/[MacTeX Homepage]
+- link:https://tug.org/texlive/[TeX Live Project]
+- `man pdflatex`, `man latexmk`

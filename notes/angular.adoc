@@ -1,178 +1,94 @@
-// ---- todo.adoc ----
-= TODO
+= Angular Notes
+:toc:
+:icons: font
 
-== Investigation
+== TODO
 
-In this section, we list the notions we are going to investigate.
+This section outlines concepts to investigate and skills to practice when learning Angular.
 
-* [ ] What is directive?
+=== 🔍 Investigation Targets
 
-== Practice
+* [ ] What is a directive in Angular?
 
-In this section, we list what we are going to practice for the fundamental knowledge.
+=== 🛠 Practice Goals
 
-* [ ] Create a simple Angular application.
-* [ ] Create a simple directive.
-* [ ] Use the directive in the application.
+* [ ] Create a simple Angular application
+* [ ] Define a custom directive
+* [ ] Use the custom directive in a component
 
-// ---- memo.adoc ----
-== Angular memo
+== Angular Memo
 
-=== router-outlet
+=== `router-outlet`
 
-In Angular, `router-outlet` is a `directive`
-provided by the Angular Router module.
-It acts as a placeholder in your application
-where the routed components are dynamically loaded based on the current route configuration.
+In Angular, `router-outlet` is a built-in directive provided by the Angular Router module. It serves as a **placeholder** in the HTML where routed components are dynamically inserted.
 
-Key Points About `router-outlet`:
+==== Key Points
 
-. Dynamic Component Loading: +
-It renders the component associated with the `activeRoute`.
-. Routing Configuration: +
-The routes are defined in a routing module (e.g., `app-routing.ts`),
-and the `router-outlet` displays the component for the matched route.
-. Multiple Outlets: +
-You can have multiple `router-outlet` directives
-in your application,
-each with a unique name for advanced routing scenarios.
-
-.Related Files
-. app.routes.ts:
-** This file defines the route configurations for your application.
-** Example:
+. **Dynamic Component Loading**
 +
-[source, typescript]
----
-import { Routes } from '@angular/router';
-import { TestPageComponent } from './test-page/test-page.component';
+The component matched to the current route is rendered at the location of `router-outlet`.
 
-export const routes: Routes = [
-    { path: 'test-page', component: TestPageComponent }
+. **Route Configuration**
++
+Routes are defined in the routing module (e.g., `app-routing.module.ts`):
+
+[source,typescript]
+----
+const routes: Routes = [
+  { path: 'home', component: HomeComponent },
+  { path: 'about', component: AboutComponent },
 ];
----
-. app.component.html:
-** Contains the `router-outlet` directive where routed components are displayed.
-** Example:
+----
+
+These routes determine what gets rendered in the `router-outlet`.
+
+. **Multiple Outlets**
 +
-[source, html]
----
+You can have multiple named outlets:
+
+[source,html]
+----
+<router-outlet name="sidebar"></router-outlet>
 <router-outlet></router-outlet>
----
-. app.component.ts:
-** The root component of your application,
-which includes the `RouterOutlet` in its `imports` array
-if using standalone components.
-** Example:
-+
-[source, typescript]
 ----
-import { RouterOutlet } from '@angular/router';
 
-@Component({
-    selector: 'app-root',
-    standalone: true,
-    imports: [RouterOutlet],
-    templateUrl: './app.component.html',
-    styleUrls: ['./app.component.css']
+This allows different parts of the screen to show different components based on routing configuration.
+
+. **Usage**
++
+Place `<router-outlet></router-outlet>` in the main application layout (`app.component.html`) to enable routing.
+
+=== What Is a Directive?
+
+A directive is a class annotated with the `@Directive()` decorator. There are three main types:
+
+1. **Component directives** (created using `@Component`)
+2. **Attribute directives** (modify behavior or appearance, like `ngClass`, `ngStyle`)
+3. **Structural directives** (change DOM structure, like `*ngIf`, `*ngFor`)
+
+==== Example: Attribute Directive
+
+[source,typescript]
+====
+@Directive({
+  selector: '[appHighlight]'
 })
-export class AppComponent {
-    title = 'my-angular-app';
+export class HighlightDirective {
+  constructor(el: ElementRef) {
+    el.nativeElement.style.backgroundColor = 'yellow';
+  }
 }
-----
-. index.html:
-** The entry of your application, which contains the `<app-root></app-root>` tag.
-where the Angular app is bootstrapped.
-** Example:
-+
-[source, html]
-----
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>My Angular App</title>
-    <link rel="stylesheet" href="styles.css">
-</head>
-<body>
-    <app-root></app-root>
-    <script src="main.js"></script>
-</body>
-</html>
-----
+====
+Use it in HTML:
 
+[source,html]
+====
+<p appHighlight>This is highlighted!</p>
+====
 
-// ---- terminologies.adoc ----
-== Terminologies in Angular
+== References
 
-[cols="1,2", options="header"]
-|===
-| Term | Summary
-
-| directive
-| Directives are classes that add additional behavior to elements in Angular applications.
-
-|===
-
-// ---- memo2.adoc ----
-== Getting started with Bootstrap in Angular
-
-You need to include the Bootstrap library and apply its classes in your components.
-Here's a brief guid:
-
-. Install Bootstrap via npm: +
-Run the following command in your project directory to install Bootstrap:
-+
-[source, bash]
-----
-npm install bootstrap
-----
-. Include Bootstrap in `angular.json`: +
-Add the Bootstrap CSS file to the `styles`` array in the `angular.json` file:
-+
-[source, json]
-----
-"styles": [
-    "node_modules/bootstrap/dist/css/bootstrap.min.css",
-    "src/styles.css"
-]
-----
-. Use Bootstrap classes in your component: +
-In your `testPage.component.css`, you don't need to write custom styles initially.
-Instead, you can use Bootstrap classes direectly in your HTML template.
-For example:
-+
-[source, html]
-----
-<div>
-    <h1 class="text-center">Welcome to Bootstrap</h1>
-    <button class="btn btn-primary">Click Me</button>
-</div>
-----
-This approach allows you to leverage Bootstrap's pre-defined styles and components without writing custom CSS.
-
-
-
-
-// ---- memo3.adoc ----
-== `*ngFor` Directive
-
-=== If `*ngFor` is not working
-
-If `*ngFor` is not working in your Angular project,
-here are some common issues and theri solutions:
-
-. Missing `CommonModule`: +
-The `*ngFor` directive is part of the `CommonModule`.
-if you are using standalone components,
-ensure that `CommonModule` is imported in your component.
-+
-.Solution: Update your `TestPageComponent` to import `CommonModule`: +
-[source, typescript]
-----
-import { Component, ViewEncapsulation } from '@angular/core';
-import { CommonModule } from '@angular/common';
-...
-----
-
+- link:https://angular.io/guide/attribute-directives[Angular Attribute Directives]
+- link:https://angular.io/guide/router[Angular Router Guide]
+- link:https://angular.io/guide/router-outlet[Angular Router Outlet]
+- link:https://angular.io/guide/directives[Angular Directives Guide]

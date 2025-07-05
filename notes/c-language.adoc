@@ -1,17 +1,25 @@
-// ---- note01.adoc ----
-= Docker container for C programming
+= Docker Container for C Programming
+:toc:
+:icons: font
 
-* A Docker container that:
-** Has GCC or Clang, Make, GDB, Valgrind, etc.
-** Runs in the **background**(`-d` mode)
-** Mounts your project folder
-** Lets you send commands to it(compile/run/test) using your local editor or shell
+This guide shows how to set up a C development environment using Docker with tools like GCC, Make, GDB, and Valgrind.
 
-== How to Set It Up
+== Features
 
-. Create a Dockerfile
-+
-[source, dockerfile]
+The container will:
+
+* Include GCC or Clang, Make, GDB, Valgrind, etc.
+* Run in the background (optional detached mode)
+* Mount your local project directory
+* Allow compilation and execution from your host shell or editor
+
+== Setup Instructions
+
+=== 1. Create the Dockerfile
+
+Save the following as `Dockerfile`:
+
+[source,dockerfile]
 ----
 FROM gcc:latest
 
@@ -20,49 +28,71 @@ RUN apt-get update && \
 
 WORKDIR /workspace
 ----
-+
-.Save that as `Dockerfile`, then:
-[source, bash]
+
+=== 2. Build the Docker Image
+
+[source,shell]
 ----
 docker build -t c-dev .
 ----
-+
-.Run the Container in Background
-[source, bash]
+
+This creates an image named `c-dev`.
+
+=== 3. Run the Container
+
+Mount your current directory (`$(pwd)`) to the container's `/workspace` directory:
+
+[source,shell]
 ----
 docker run -it --rm -v $(pwd):/workspace c-dev
 ----
-+
-* `-d` → detached(background) mode
-* `-i` → keep STDIN open
-* `--rm` → remove the container after it exits
-* `-t` → allocate a pseudo-TTY
-* `-v $(pwd):/workspace` → mount the current directory to `/workspace` in the container
 
-. Execute Commands Inside the Container
-+
-.To compile a file, for example:
-[source, bash]
+.Optionally add `-d` for background mode:
+[source,shell]
 ----
-docker exec -it c-dev gcc hello.c -o hello
+docker run -dit --rm -v $(pwd):/workspace c-dev
 ----
-+
-.To run the output:
-[source, bash]
+
+==== Docker Options Explained
+
+- `-d`: Run in background (detached mode)
+- `-i`: Keep STDIN open
+- `-t`: Allocate a pseudo-terminal (TTY)
+- `--rm`: Automatically remove container when it exits
+- `-v`: Mount a volume (host directory into container)
+
+=== 4. Compile and Run C Programs
+
+Once inside the container:
+
+[source,shell]
 ----
-docker exec c-dev ./hello
+gcc -o hello hello.c
+./hello
 ----
-+
-You can even write a simple script (e.g., `run.sh`) that wrap `docker exec` for ease of use.
 
+Or from the host shell using `docker exec`:
 
+[source,shell]
+----
+docker exec -it <container_id> gcc -o hello hello.c
+----
 
-// ---- blackboard.adoc ----
-== Blackboard
+You can find the container ID with:
 
-=== TODO
+[source,shell]
+----
+docker ps
+----
 
-==== Investigate
+== Tips
 
-* What is `extern`?
+- Use `valgrind ./hello` to check for memory leaks
+- Use `gdb ./hello` for debugging
+- Mount your entire workspace for easy file editing in your host editor
 
+== References
+
+- link:https://gcc.gnu.org/[GCC]
+- link:https://valgrind.org/[Valgrind]
+- `man docker`, `man gcc`, `man gdb`

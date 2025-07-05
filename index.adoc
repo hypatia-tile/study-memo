@@ -8,4 +8,3 @@
 * link:notes/docker.adoc[docker.adoc] 
 * link:notes/c-language.adoc[c-language.adoc] 
 * link:notes/tex.adoc[tex.adoc] 
-* link:notes/memo.md[memo.md] 

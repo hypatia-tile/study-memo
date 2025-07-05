@@ -1,16 +1,48 @@
-// ---- memo.adoc ----
-= memo
+= Executable Inspection Tools
+:toc:
+:icons: font
 
-. view assembly +
-You can use some commands to get more information
-about what is contained in the executable file.
-Some example commands are: `nm`, `strings`, `objdump`:
-+
-[source, bash]
+This memo shows how to inspect a compiled executable (e.g., `a.out`) using common command-line tools.
+
+== Tools
+
+=== 1. `nm`
+
+Lists symbol names (functions, variables, etc.) in the binary:
+
+[source,shell]
 ----
-$ nm a.out
-$ strings a.out
-$ objdump -xD --demangle a.out
+nm a.out
 ----
 
+=== 2. `strings`
 
+Extracts printable strings (useful for finding hardcoded values):
+
+[source,shell]
+----
+strings a.out
+----
+
+=== 3. `objdump`
+
+Displays detailed binary information, including disassembly:
+
+[source,shell]
+----
+objdump -xD --demangle a.out
+----
+
+Options:
+- `-x`: All headers
+- `-D`: Disassemble all sections
+- `--demangle`: Convert C++ mangled names into readable format
+
+== Notes
+
+- These commands are especially useful when debugging or reverse-engineering a binary.
+- Combine them with `file` and `readelf` for deeper ELF inspection on Linux systems.
+
+== References
+
+- `man nm`, `man strings`, `man objdump`

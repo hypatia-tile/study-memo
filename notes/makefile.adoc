@@ -1,122 +1,73 @@
-// ---- memo.adoc ----
-= Makefile syntax example
+= Makefile Syntax Example
+:toc:
+:icons: font
 
-== Example 1
+== Example 1: Compile C Files into `bin/`
 
-[source, makefile]
+The following Makefile rule compiles all `.c` files in the `experiments/` directory and outputs executables to the `bin/` directory.
+
+[source,makefile]
 ----
+EXPERIMENT_DIR := experiments
+
 experiments:
 	@mkdir -p bin
 	@for file in $(wildcard $(EXPERIMENT_DIR)/*.c); do \
-  		name=$$(basename $$file .c); \
-  		echo "Compiling $$file -> bin/$$name"; \
-		gcc -o bin/$${target} $${file}; \
+		name=$$(basename $$file .c); \
+		echo "Compiling $$file -> bin/$$name"; \
+		gcc -o bin/$$name $$file; \
 	done
 ----
 
- This code defines the `experiments` target in the `Makefile`,
- which complies all  `.c` files in the `experiments` directory
- into executables stored in the `bin` directory.
+== Explanation
 
-. Create the `bin` directory.
+. **Create `bin/` directory**
 +
-[source, makefile]
+Ensures the output directory exists before compilation:
+
+[source,makefile]
 ----
 @mkdir -p bin
 ----
-Ensures the `bin` directory exists before placing compiled executables there.
-. Iterate over `.c` files:
+
+. **Loop over `.c` files**
 +
-[source, makefile]
+This loop processes all C files in the `experiments` folder:
+
+[source,makefile]
 ----
-@for file in $(wildcard $(EXPERIMENT_DIR)/*.c); do \
+@for file in $(wildcard $(EXPERIMENT_DIR)/*.c); do ...
 ----
-Uses a `for` loop to process each `.c` file in the `experiments` directory.
-. Extract the file name without extension:
+
+. **Extract base filename (no extension)**
 +
-[source, makefile]
+The name of the file without `.c` is stored as `name`:
+
+[source,makefile]
 ----
-name=$$(basename $$file .c); \
+name=$$(basename $$file .c)
 ----
-Extracts the base name of the file (without the `.c` extension) to use as the executable name.
-. Compile each file:
+
+. **Compile each file**
 +
-[source, makefile]
+Compile using `gcc`, placing the output in `bin/`:
+
+[source,makefile]
 ----
-gcc -o bin/$$(target) $$(file); \
+gcc -o bin/$$name $$file
 ----
-Compiles the `.c` file into an executable named after the file and places it in the `bin` directory.
-. Log the compilation:
+
+. **Suppress command output**
 +
-[source, makefile]
-----
-echo "Compiling $$file -> bin/$$name"; \
-----
-Outputs a message indicating the file being compiled and its destination.
-. Note: +
-There is a potential issue with the variable `target` in teh `gcc` command,
-as it is not defined in the loop.
-It should be replaced with `name`
+The `@` symbol suppresses the echoing of shell commands for cleaner output.
 
-== Example 2 (fix Example 1)
+== Notes
 
-To fix the issue and ensure that the compiled executable are stored in the `bin/experiments` directory,
-the `gcc` command and the `mkdir` command need to updated accordingly.
-Additionally, the undefined `target` variable in the `gcc` command should be replaced with the correct `name` variable.
+- Always double the dollar signs (`$$`) when using shell variables in Makefile.
+- Use `wildcard` to gather files dynamically.
+- This rule assumes `gcc` is available and your `.c` files do not depend on headers outside their directory.
 
-Here is the corrected code:
+== Related Topics
 
-[source, makefile]
-----
-@mkdir -p bin/experiments
-    @for file in $(wildcard $(EXPERIMENT_DIR)/*.c); do \
-        name=$$(basename $$file .c); \
-        echo "Compiling $$file -> bin/experiments/$$name"; \
-        gcc -o bin/experiments/$$name $$file; \
-    done
-----
-Explanation of the Fixes:
-. Directory Creation: +
-Updated `mkdir` to create `bin\experiments/` directory instead of just `bin/`.
-. Output Path: +
-Updated the `gcc` command to place the compiled executable in `bin/experiments/` using the `name` variable.
-. Variable Fix: +
-Replaced the undefined `target` variable with the correct `name` variable in the `gcc` command.
-
-== Sysntax (`$$` vs `$`)
-
-In `Makefile` syntax, the `$$` is used to escape the `$` character.
-This is necessary because `$` is a special character in `Makefile`
-used for variable expansion.
-When you want to use a literal `$` in shell commands within a `Makefile`,
-you need to escape it by doubling it (`$$`).
-
-For example:
-
-* `$$file` refers to the shell variable `file` in a `Makefile` command.
-* `$file` would instead try to expand a `Makefile` variable named `file`.
-
-In the context of your `Makefile`, `$$file` is a shell variable defined in the `for` loop,
-while `$file` wourld refer to a `Makefile` variable.
-
-== Syntax (`notdir`)
-
-The `notdir` function in `Makefile` is used to extract the file or directory names
-(without their preceding path) from a list of paths.
-
-In the selected line:
-
-[source, makefile]
-----
-CLI_TARGETS := $(notdir $(CLI_SUBDIRS))
-----
-
-* `$(CLI_SUBDIRS)` contains a list of subdirectory paths under `cli`
-(e.g., `cli/app1`, `cli/app2`).
-* `$(notdir ...)` removes the directory path, leaving only the base names (e.g., `app1`, `app2`).
-
-This effectively create a list of target names (CLI_TARGETS) corresponding to the subdirectories in `cli`.
-
-
-
-
+- link:https://www.gnu.org/software/make/manual/make.html[GNU Make Manual]
+- `man make`
