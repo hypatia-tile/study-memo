@@ -1,166 +1,178 @@
-// ---- main.adoc ----
 = Docker
+:toc:
+:icons: font
 
-== Table of Contents
+== Overview
 
-* link:installation_and_usage/main.adoc[Installation and usage]
-// * xref:main.adoc#docker[Docker]
-// * xref:why_docker/main.adoc[Why Docker]
+This note covers:
 
+* Docker installation (especially on Apple Silicon Macs)
+* Basic usage and command-line operations
 
-// ---- installation_and_usage.adoc ----
 == Installation and Usage
 
-=== Use Docker on a Mac with Apple Silicon
+=== Docker on macOS (Apple Silicon)
 
 ==== Prerequisites
 
-To use Docker on a Mac with Apple Silicon, we will need to download and install Docker Desktop for Mac(Apple Silicon version).
+To install Docker on a Mac with an M1/M2/M3 chip:
 
-.Here's what we should do:
-. Download Docker Desktop for Apple Silicon: +
-We will need to download the ARM64 version specifically designed for Apple Silicon chips like M3.
-Visit the Docker Desktop download page: link:https://desktop.docker.com/mac/main/arm64/Docker.dmg?utm_source=docker&utm_medium=webreferral&utm_campaign=docs-driven-download-mac-arm64[Docker Desktop for Mac (Apple Silicon)].
-. System Requirements: +
-Make sure our system meets the requirements for Docker Desktop.
-We can check the specific requirements in the link:https://docs.docker.com/desktop/setup/install/mac-install/[Mac install instructions].
-. Rosetta 2: +
-While Docker Desktop for Apple Silicon includes support for running ARM64 containers natively,
-we might need Rosetta 2 for running x86_64/amd64 containers through emulation.
-This can be configured in Docker Deskitop settings.
-. License Consideration: +
-Be aware that commercial use of Docker Desktop in larger enterprises
-(more than 250 employees OR more than $10 milion USD in annual revenue)
-requires a paid subscription. 
-
-.After installation, we can verify everything is working by running our first container with:
-[source, bash]
-----
-docker run -d -p 8080:80 docker/welcome-to-docker
-----
-
-Then access http://localhost:8080 in our web browser to see the welcome page.
-
-Docker Desktop will provide us with a graphical interface to manage our containers, images, volumes,
-and networks, making container management more straghtforward.
-
-== Use Docker on Ubuntu
-
-=== Install Docker Engine
-
-*Docker Engine* is open source containerization technology for building and containerizing your applications.
-Docker Engine acts as a client-server application with:
-* A server with a long-running daemon process `dockerd`.
-* APIs which specify interfaces that programs can use to talk to and instruct the Docker daemon.
-* A command line interface (CLI) client `docker`.
-
-This section describes how to install Docker Engine on Linux,
-also known as Docker CE (Community Edition).
-Docker Engine is also available for Windows and macOS, and Linux,
-through Docker Dscktop.
-For instructions on how to install Docker Desktop,
-see: link:https://docs.docker.com/desktop/[Overview of Docker Desktop]
-
-=== Prerequisites
-
-==== Firewall limitations
-
-.Warning
-[warning]
-====
-Before you install Docker, make sure you consider the following security implication and firewall incompatibilities.
-====
-
-* If you use ufw or firewalld to manage firewall settings,
-be aware that when you expose container ports using Docker,
-these ports bypass your firewall rules.
-For more information: link:https://docs.docker.com/engine/network/packet-filtering-firewalls/#docker-and-ufw[Docker and ufw]
-* Docker is only compatible with `iptables-nft` and `iptables-legacy`.
-Firewall rules with `nft` are not supported on a system with Docker installed.
-Make sure that any firewall rulesets you use are created with `iptables` or `ip6tables`,
-and that you add them to the `DOCKER-USER` chain, see link:https://docs.docker.com/engine/network/packet-filtering-firewalls/[Packet filtering firewalls].
-
-==== Uninstall old versions
-
-Before you can install Docker Engine,
-you need to uninstall any conflicting packages.
-
-Your Linux distribution may provide unofficial Docker packages,
-which may conflict with the official provided by Docker.
-You must uninstall these packages before you install the official version of Docker Engine.
-
-The unofficial packages to uninstall are:
-
-* `docker.io`
-* `docker-compose`
-* `docker-compose-v2`
-* `docker-doc`
-* `podman-docker`
-
-== Linux post-installation steps for Docker Engine
-
-These optional post-installation procedures describe how to configure your Linux host machine to work better with Docker.
-
-=== Manage Docker as a non-root user
-
-The Docker daemon binds to a Unix socket, not a TCP port.
-By default it't the `root` user that owns the Unix socket,
-and other users can only access it using `sudo`.
-The Docker daemon always runs as the `root` user.
-
-If you don't want to preface the `docker` command with `sudo`, create a Unix group called `docker` and add users to it.
-When the Docker daemon starts, it creates a Unix socket accessible by members of the `docker` group.
-On some Linux distributions, the system automatically creates this gtoup when installing Docker Engine
-using a package manager.
-In that case, there is no need for you to manually create the group.
-
-.Warning
-[Warning]
-====
-The `docker` group grants root-level privileges to the user.
-For details on how this impacts security in your system, see link:https://docs.docker.com/engine/security/security/#docker-daemon-attack-surface[Docker daemon attack surface].
-====
-
-.Note
-[Note]
-====
-To run Docker without root privileges, see link:https://docs.docker.com/engine/security/rootless/[Run the Docker daemon as a non-root user (Rootless mode)].
-====
-
-To create the `docker` group and add your user:
-
-. Create the `docker` group.
+. Download Docker Desktop for Apple Silicon (ARM64 version):
 +
-[source, bash]
+link:https://desktop.docker.com/mac/main/arm64/Docker.dmg?utm_source=docker&utm_medium=webreferral&utm_campaign=docs-driven-download-mac-arm64[Docker Desktop for Mac (Apple Silicon)]
+. Confirm your system meets the requirements (macOS 12 or later is recommended).
+. After installation, start Docker Desktop and ensure the Docker daemon is running.
+
+=== Verifying Installation
+
+Check Docker version:
+
+[source,shell]
 ----
-sudo groupadd docker
+docker --version
 ----
 
-. Add your user to the `docker` group.
-+
-[source, bash]
+Check if Docker daemon is working:
+
+[source,shell]
 ----
-sudo usermod -aG docker $USER
+docker info
 ----
 
-. Log out and log back in so that your group membership is re-evaluated.
-+
-[note]
-====
-If you're running Linux in a virtual machine, it may be necessary to restart the virtual machine for changes to take effect.
-====
-You can also run the following command to activate the changes to groups:
-+
-[source, bash]
+== Common Docker Commands
+
+=== Images
+
+List images:
+
+[source,shell]
 ----
-newgrp docker
+docker images
 ----
 
-. Verify that you can run `docker` commands without `sudo`.
-+
-[source, bash]
+Remove an image:
+
+[source,shell]
 ----
-docker run hello-world
+docker rmi <image_id>
 ----
 
+=== Containers
 
+Run a container (e.g., Ubuntu):
+
+[source,shell]
+----
+docker run -it ubuntu /bin/bash
+----
+
+List running containers:
+
+[source,shell]
+----
+docker ps
+----
+
+List all containers (including stopped):
+
+[source,shell]
+----
+docker ps -a
+----
+
+Stop a container:
+
+[source,shell]
+----
+docker stop <container_id>
+----
+
+Remove a container:
+
+[source,shell]
+----
+docker rm <container_id>
+----
+
+=== Building Images
+
+Build an image from a Dockerfile:
+
+[source,shell]
+----
+docker build -t my-image .
+----
+
+=== Volumes
+
+Create a volume:
+
+[source,shell]
+----
+docker volume create my-volume
+----
+
+Mount volume into a container:
+
+[source,shell]
+----
+docker run -v my-volume:/data ubuntu
+----
+
+=== Networks
+
+Create a user-defined bridge network:
+
+[source,shell]
+----
+docker network create my-bridge
+----
+
+Run containers on the same custom network:
+
+[source,shell]
+----
+docker run -dit --network my-bridge --name container1 ubuntu
+docker run -dit --network my-bridge --name container2 ubuntu
+----
+
+== Docker Compose (Overview)
+
+To manage multi-container applications:
+
+. Define services in a `docker-compose.yml` file
+. Use `docker-compose up` to start
+
+Example:
+
+[source,yaml]
+----
+version: '3'
+services:
+  web:
+    image: nginx
+    ports:
+      - "8080:80"
+  db:
+    image: postgres
+    environment:
+      POSTGRES_PASSWORD: example
+----
+
+Start the stack:
+
+[source,shell]
+----
+docker-compose up
+----
+
+== Useful Tips
+
+* Use `.dockerignore` to exclude files when building.
+* Combine `docker exec -it <container>` with bash for debugging.
+* Use `docker logs <container>` to inspect output.
+
+== References
+
+- link:https://docs.docker.com/[Docker Official Documentation]
+- `man docker`
