@@ -1,0 +1,62 @@
+= What is Xen?
+:toc:
+:icons: font
+:date: 2025-07-05
+:tags: draft
+
+== Overview
+
+* ** Xen project ** is a Linux Foundation project,
+which brings the power of virtualization everywhere.
+
+* Xen project is a global open source community
+that develops the Xen project Hypervisor and its associated subprojects.
+
+* Xen is an open source type-1 (bare-metal) hypervisor
+which makes it possible to run many instances of an operating system or indeed
+different operating systems in parallel on a single machine (or host).
+
+* Xen is the only type-1 hypervisor that is available as open source.
+
+* The Xen hypervisor is a thin layer of software
+which **emulates a computer architecture**
+allowing multiple operating systems to run simultaneously.
+
+* The hypervisor is started by the bootloader of computer it is installed on.
+
+== Mission of Xen Project
+
+* The mission of the Xen Project is to advance virtualization technology
+across a whole range of commercial and open source domains.
+
+== What is Type-1, Type-2 Hypervisor?
+
+* **Type-1 Hypervisor**: Also known as a bare-metal hypervisor,
+which runs directly on the host's hardware,
+managing virtual machines without needing a separate operating system.
+* **Type-2 Hypervisor**: Also known as a hosted hypervisor,
+which runs on top of a host operating system.
+
+== What is emulation is computer architecture?
+
+* **Emulation in computer architecture** refers to the ability of a system
+to mimic the behavior of another system,
+allowing software designed for one platform to run on different one.
+
+=== Distinction from Virtualization
+
+* While both emulation and virtualization create virtual environments,
+virtualization focuses on partitioning resources of a physical machine,
+whereas emulation aims to replicate the behavior of another system.
+
+
+== References
+
+* [Xen Project Official Website](https://xenproject.org/)
+* [Arch Linux Wiki - Xen](https://wiki.archlinux.org/index.php/Xen)
+* [Emulation in Computer Architecture](https://en.wikipedia.org/wiki/Emulation_(computer_architecture))
+
+== Related Topics
+
+* [Virtualization](https://en.wikipedia.org/wiki/Virtualization)
+* [Hypervisor](https://en.wikipedia.org/wiki/Hypervisor)

@@ -1,0 +1,73 @@
+= Emulation in computer architecture
+:toc:
+:icons: font
+:date: 2025-07-05
+:tags: draft
+
+== Overview
+
+* **Emulation in computer architecture** essentially refers to creating a virtual environment
+that replicates the target system's hardware and software,
+enabling cross-platform compatibility and preserving legacy systems.
+
+== More Details
+
+=== Key Concepts
+
+* Target System: (Guest) +
+The system whose behavior is being emulated.
+(e.g., a specific CPU architecture or operating system)
+* Host System: (Host) +
+The system that is running the emulation software.
+(e.g., a modern computer with a different architecture)
+* Emulation Software: (Emulator) +
+The software that creates the virtual environment,
+mimicking the target system's hardware and software.
+
+=== How It Works
+
+. Instruction Translation +
+The emulator translates instructions from the target system's architecture
+to the host system's architecture,
+. Hardware Mimicking +
+The emulator simulates the behavior of the target system's hardware components,
+such as the CPU, memory, and peripherals.
+. Software Compatibility +
+By replicating the target system's environment,
+the emulator allows software designed for that system to run on the host system.
+
+=== Types of Emulation
+
+* Full-System Emulation +
+Replicates the entire hardware and software environment of the target system.
+* Partial Emulation +
+Focuses on emulating specific components or functionalities of the target system.
+* Binary Translation +
+Converts the target system's code into code that can be directly executed on the host system.
+* Dynamic Recompilation +
+Translate code on the fly as it's executed, optimizing performance.
+
+=== Benefits
+
+* Platform Independence +
+Enable software to run on different hardware platforms.
+* Legacy Support +
+Preserve and extends the lifespan of older software and hardware.
+* Testing and Development +
+Provides a flexible environment for testing software on various platforms.
+* Cost Effectiveness +
+Reduces the need for physical hardware for testing and development.
+
+=== Examples of Emulation
+
+* QEMU +
+A popular open-source emulator that supports a wide range of architectures.
+* Bochs +
+An open-source IA-32 (x86) PC emulator that can run various operating systems.
+* VirtualBox +
+A cross-platform virtualization software that allows users to run multiple operating systems on a single host.
+
+== Reference
+
+* [Emulation in Computer Architecture](https://en.wikipedia.org/wiki/Emulation_(computer_architecture))
+* [QEMU Official Website](https://www.qemu.org/)
