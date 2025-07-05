@@ -90,7 +90,8 @@ def generate_knowledge_graph(notes_meta, out_path, abs_out_path=None, abs_paths=
 
 def main():
     root_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-    notes = find_notes(root_dir)
+    notes_dir = os.path.join(root_dir, 'notes')
+    notes = find_notes(notes_dir)
     notes_meta = [extract_metadata(note, root_dir) for note in notes]
     abs_paths = notes
     generate_index(notes_meta, os.path.join(root_dir, 'index.adoc'))
