@@ -3,6 +3,8 @@ import sys
 from glob import glob
 from datetime import datetime
 
+NOTES_DIR = 'notes'
+
 # --- Model ---
 class NoteModel:
     @staticmethod
@@ -20,7 +22,7 @@ class NoteModel:
         return filepath
 
     @staticmethod
-    def integrate_topic(topic_dir, notes_dir='notes'):
+    def integrate_topic(topic_dir, notes_dir=NOTES_DIR):
         topic = os.path.basename(topic_dir.rstrip('/'))
         adoc_files = []
         main_file = os.path.join(topic_dir, 'main.adoc')
@@ -40,7 +42,7 @@ class NoteModel:
             return None, 0
 
     @staticmethod
-    def find_notes(root_dir, extensions=None):
+    def find_notes(root_dir=NOTES_DIR, extensions=None):
         if extensions is None:
             extensions = ['.adoc', '.md']
         notes = []
@@ -127,7 +129,7 @@ class NoteModel:
             print(f"Absolute path knowledge graph written to {abs_out_path}")
 
     @staticmethod
-    def detect_multiple_titles(notes_dir):
+    def detect_multiple_titles(notes_dir=NOTES_DIR):
         import re
         pattern = re.compile(r'^= ', re.MULTILINE)
         for fname in os.listdir(notes_dir):
