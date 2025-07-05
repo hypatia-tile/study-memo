@@ -1,73 +1,73 @@
-= study-memo
-The purpose of this repository is note my study verbosely.
+= Knowledge Manifest: My Study-Memo Workflow
 
-== Subjects
+This repository is a living system for capturing, structuring, and evolving my personal and technical knowledge. It is designed to be:
 
-- [ ] First and foremost, I want to arrange my environment for study.
+- **Tidy**: All notes are organized by topic in the `notes/` directory, with each topic as a single Asciidoc file.
+- **Automated**: Scripts generate indexes and knowledge graphs, keeping everything discoverable and connected.
+- **Extensible**: The structure and workflow are designed to grow with my learning needs.
 
-== contents
+== Workflow Principles
 
-* link:ssh/main.adoc[SSH]
-* link:tex/main.adoc[LaTeX]
+1. **Atomic Notes**: Each note or concept is captured in its relevant topic file, using clear sections and subsections.
+2. **Consistent Structure**: All notes use Asciidoc, with a single top-level title per file and logical sectioning.
+3. **Metadata & Linking**: Where useful, notes include metadata (tags, related topics) and cross-references to related knowledge.
+4. **Automation**: Scripts in `scripts/` keep the index and knowledge graph up to date, and help detect structural issues.
+5. **Review & Refactor**: Regularly review notes for clarity, deduplication, and improved structure.
 
-== interest
+== Directory Structure
 
-- [x] MacTeX
-- [x] Install LaTeX Workshop using Docker
+- `notes/` — All knowledge, organized by topic (e.g., `docker.adoc`, `tex.adoc`, `c-language.adoc`, etc.)
+- `scripts/` — Automation for indexing, graphing, and maintenance
+- `index.adoc` — Auto-generated index of all notes
+- `knowledge-graph.json` — Auto-generated knowledge graph for visualization and analysis
 
+== How to Add Knowledge
 
-[cols="1,2,2,2,2", options="header"]
-|===
+1. **Find the right topic file** in `notes/` (or create a new one if needed).
+2. **Add your note** as a new section or subsection, using Asciidoc headings.
+3. **Link related concepts** using Asciidoc cross-references or explicit links.
+4. **(Optional) Add metadata** at the top of the section if useful (e.g., tags, date).
+5. **Run the automation scripts** to update the index and knowledge graph:
 
-| Topic
-| Description
-| What to do next
-| progress
-| see
+    [source, shell]
+    ----
+    python3 scripts/generate_index_and_knowledge_graph.py
+    ----
 
-| LaTeX
-| Installation and usage of mactex
-| Write a notes for my learning math using LaTeX
-| 0%
-| 70%
-|
+== How to Add and Integrate Topic Notes
 
-| learn github actions
-| Learn how to use Git
-| Investigate the usage of GitHub actions
-| 0%
-|
+1. **Create a new topic folder** in `notes/` (e.g., `notes/mytopic/`).
+2. **Add a `main.adoc`** file and any other `.adoc` files in that folder.
+3. **Integrate all notes in the topic folder** into a single file with:
 
-| learn how to use docker
-| Learn how to use docker
-| Investigate the usage of docker
-| 0%
-| link:docker/main.adoc[Docker]
+    [source, shell]
+    ----
+    python3 scripts/integrate_topic.py notes/mytopic
+    ----
 
-| learn C programming language
-| learn C programming language
-| set up the environment for C programming using Docker
-| 10%
-| link:c-language/main.adoc[C programming language]
+   This will create (or overwrite) `notes/mytopic.adoc` with the integrated content.
+4. **Review and edit the integrated file** for structure and clarity.
+5. **Remove the original topic folder** if you want to keep the notes directory tidy.
 
-|===
+== Automation
 
-== Books
+- `generate_index_and_knowledge_graph.py`: Scans all notes, updates `index.adoc` and `knowledge-graph.json`.
+- `integrate_notes.py`: (One-time) Integrates scattered notes into single topic files.
+- `integrate_topic.py`: Integrates all notes in a topic folder into a single Asciidoc file.
+- `detect_multiple_titles.py`: Detects and warns about multiple top-level titles in a file.
 
-[cols="3,2,2,2,1", options="header"]
-|===
-| Book
-| Author
-| description
-| progress
+== Philosophy
 
-| Effective C: An Introduction to Professional C Programming
-| Robert C. Seacord
-| A detailed introduction to C programming language for experienced programmers
-| 10%
+- **Capture everything**: No idea is too small.
+- **Refactor often**: Merge, split, and reorganize as understanding deepens.
+- **Make connections**: Link related ideas to build a true knowledge graph.
+- **Automate the boring parts**: Let scripts keep things tidy and discoverable.
 
-|===
+== Next Steps
 
-== Next todo
+- Keep learning, keep capturing.
+- Periodically run scripts to maintain structure.
+- Visualize and explore your knowledge graph for new insights.
 
-link:https://github.com/James-Yu/LaTeX-Workshop/wiki/Install#using-docker[Install LaTeX Workshop using Docker]
+---
+This README is itself a living document. Refine your workflow and structure as your needs evolve.
