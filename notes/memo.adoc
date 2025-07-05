@@ -1,0 +1,16 @@
+// ---- memo.adoc ----
+= memo
+
+. view assembly +
+You can use some commands to get more information
+about what is contained in the executable file.
+Some example commands are: `nm`, `strings`, `objdump`:
++
+[source, bash]
+----
+$ nm a.out
+$ strings a.out
+$ objdump -xD --demangle a.out
+----
+
+

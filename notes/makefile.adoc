@@ -1,3 +1,4 @@
+// ---- memo.adoc ----
 = Makefile syntax example
 
 == Example 1
@@ -115,5 +116,7 @@ CLI_TARGETS := $(notdir $(CLI_SUBDIRS))
 * `$(notdir ...)` removes the directory path, leaving only the base names (e.g., `app1`, `app2`).
 
 This effectively create a list of target names (CLI_TARGETS) corresponding to the subdirectories in `cli`.
+
+
 
 

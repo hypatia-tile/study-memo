@@ -1,3 +1,4 @@
+// ---- main.adoc ----
 = Installation and Usage of MacTex
 
 == Installation
@@ -63,3 +64,4 @@ This command will create a PDF file with the same name as the TeX file.
 == Next todo
 
 link:https://github.com/James-Yu/LaTeX-Workshop/wiki/Install#using-docker[Install LaTeX Workshop using Docker]
+

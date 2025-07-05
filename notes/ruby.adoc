@@ -1,3 +1,4 @@
+// ---- installation.adoc ----
 = Ruby installation
 
 == Ruby installation on macOS
@@ -113,3 +114,4 @@ echo 'export PATH="/opt/homebrew/opt/ruby/bin:$PATH"' >> ~/.zshrc
 == Bibliography
 
 * https://stackify.com/install-ruby-on-your-mac-everything-you-need-to-get-going/
+

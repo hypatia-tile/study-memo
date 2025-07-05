@@ -1,7 +1,0 @@
-= Blackboard
-
-== TODO
-
-=== Investigate
-
-* What is `extern`?

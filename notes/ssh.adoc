@@ -1,3 +1,4 @@
+// ---- main.adoc ----
 = SSH (Secure Shell)
 
 SSH (Secure Shell) is a cryptographic network protocol for operating network services securely over an unsecured network.
@@ -75,5 +76,7 @@ ssh-keygen -t rsa -b 4096 -C "your_email@example.com"
 ----
 
 This command generates a new SSH key using the RSA algorithm with a key size of 4096 bits.
+
+
 
 

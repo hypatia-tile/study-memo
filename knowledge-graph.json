@@ -2,265 +2,55 @@
   "nodes": [
     {
       "id": 0,
-      "file": "notes/memo.md",
+      "file": "notes/ssh.adoc",
       "topic": null,
       "tags": []
     },
     {
       "id": 1,
-      "file": "notes/tex/main.adoc",
+      "file": "notes/memo.adoc",
       "topic": null,
       "tags": []
     },
     {
       "id": 2,
-      "file": "notes/docker/installation_and_usage.adoc",
+      "file": "notes/ruby.adoc",
       "topic": null,
       "tags": []
     },
     {
       "id": 3,
-      "file": "notes/docker/main.adoc",
+      "file": "notes/angular.adoc",
       "topic": null,
       "tags": []
     },
     {
       "id": 4,
-      "file": "notes/docker/cheet_sheet/main.adoc",
+      "file": "notes/makefile.adoc",
       "topic": null,
       "tags": []
     },
     {
       "id": 5,
-      "file": "notes/docker/why_docker/note5.adoc",
+      "file": "notes/docker.adoc",
       "topic": null,
       "tags": []
     },
     {
       "id": 6,
-      "file": "notes/docker/why_docker/note4.adoc",
+      "file": "notes/c-language.adoc",
       "topic": null,
       "tags": []
     },
     {
       "id": 7,
-      "file": "notes/docker/why_docker/note3.adoc",
+      "file": "notes/tex.adoc",
       "topic": null,
       "tags": []
     },
     {
       "id": 8,
-      "file": "notes/docker/why_docker/main.adoc",
-      "topic": null,
-      "tags": []
-    },
-    {
-      "id": 9,
-      "file": "notes/docker/why_docker/note2.adoc",
-      "topic": null,
-      "tags": []
-    },
-    {
-      "id": 10,
-      "file": "notes/docker/why_docker/note1.adoc",
-      "topic": null,
-      "tags": []
-    },
-    {
-      "id": 11,
-      "file": "notes/docker/why_docker/note6.adoc",
-      "topic": null,
-      "tags": []
-    },
-    {
-      "id": 12,
-      "file": "notes/makefile/memo.adoc",
-      "topic": null,
-      "tags": []
-    },
-    {
-      "id": 13,
-      "file": "notes/angular/todo.adoc",
-      "topic": null,
-      "tags": []
-    },
-    {
-      "id": 14,
-      "file": "notes/angular/memo.adoc",
-      "topic": null,
-      "tags": []
-    },
-    {
-      "id": 15,
-      "file": "notes/angular/terminologies.adoc",
-      "topic": null,
-      "tags": []
-    },
-    {
-      "id": 16,
-      "file": "notes/angular/memo2.adoc",
-      "topic": null,
-      "tags": []
-    },
-    {
-      "id": 17,
-      "file": "notes/angular/memo.md",
-      "topic": null,
-      "tags": []
-    },
-    {
-      "id": 18,
-      "file": "notes/angular/memo3.adoc",
-      "topic": null,
-      "tags": []
-    },
-    {
-      "id": 19,
-      "file": "notes/angular/notions/directive.adoc",
-      "topic": null,
-      "tags": []
-    },
-    {
-      "id": 20,
-      "file": "notes/ssh/main.adoc",
-      "topic": null,
-      "tags": []
-    },
-    {
-      "id": 21,
-      "file": "notes/memo/arrays_in_c.md",
-      "topic": null,
-      "tags": []
-    },
-    {
-      "id": 22,
-      "file": "notes/memo/memo.adoc",
-      "topic": null,
-      "tags": []
-    },
-    {
-      "id": 23,
-      "file": "notes/memo/note.md",
-      "topic": null,
-      "tags": []
-    },
-    {
-      "id": 24,
-      "file": "notes/memo/dockerfile_entrypoint.md",
-      "topic": null,
-      "tags": []
-    },
-    {
-      "id": 25,
-      "file": "notes/memo/docker_spring.md",
-      "topic": null,
-      "tags": []
-    },
-    {
-      "id": 26,
-      "file": "notes/memo/2025/04/20/memo.adoc",
-      "topic": null,
-      "tags": []
-    },
-    {
-      "id": 27,
-      "file": "notes/memo/2025/04/20/memo2.adoc",
-      "topic": null,
-      "tags": []
-    },
-    {
-      "id": 28,
-      "file": "notes/memo/2025/04/27/memo.adoc",
-      "topic": null,
-      "tags": []
-    },
-    {
-      "id": 29,
-      "file": "notes/memo/2025/04/29/note.adoc",
-      "topic": null,
-      "tags": []
-    },
-    {
-      "id": 30,
-      "file": "notes/memo/2025/04/19/daily.md",
-      "topic": null,
-      "tags": []
-    },
-    {
-      "id": 31,
-      "file": "notes/memo/2025/04/15/daily.adoc",
-      "topic": null,
-      "tags": []
-    },
-    {
-      "id": 32,
-      "file": "notes/memo/2025/05/05/memo.adoc",
-      "topic": null,
-      "tags": []
-    },
-    {
-      "id": 33,
-      "file": "notes/memo/2025/05/05/10/memo.adoc",
-      "topic": null,
-      "tags": []
-    },
-    {
-      "id": 34,
-      "file": "notes/memo/2025/05/05/10/memo.md",
-      "topic": null,
-      "tags": []
-    },
-    {
-      "id": 35,
-      "file": "notes/memo/2025/05/12/memo.adoc",
-      "topic": null,
-      "tags": []
-    },
-    {
-      "id": 36,
-      "file": "notes/c-language/note01.adoc",
-      "topic": null,
-      "tags": []
-    },
-    {
-      "id": 37,
-      "file": "notes/c-language/blackboard.adoc",
-      "topic": null,
-      "tags": []
-    },
-    {
-      "id": 38,
-      "file": "notes/c-language/notions/extern.adoc",
-      "topic": null,
-      "tags": []
-    },
-    {
-      "id": 39,
-      "file": "notes/diary/2025/05/18/note.adoc",
-      "topic": null,
-      "tags": []
-    },
-    {
-      "id": 40,
-      "file": "notes/diary/2025/05/25/note.adoc",
-      "topic": null,
-      "tags": []
-    },
-    {
-      "id": 41,
-      "file": "notes/diary/2025/06/29/diary_20250629.adoc",
-      "topic": null,
-      "tags": []
-    },
-    {
-      "id": 42,
-      "file": "notes/ruby/installation.adoc",
-      "topic": null,
-      "tags": []
-    },
-    {
-      "id": 43,
-      "file": "notes/spring/unit-testing.md",
+      "file": "notes/memo.md",
       "topic": null,
       "tags": []
     }
