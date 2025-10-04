@@ -12,7 +12,11 @@ def create_diary():
     file_name_for_today = f"note_{strdate}.md"
     print(f"Today's file name would be: {file_name_for_today}")
     target_path_for_diary = os.path.join(diary_dir, file_name_for_today)
-    title = f"# {strdate}\n"
+    title = f"""# {strdate}
+
+This is a temporary note for my daily learning.
+Contents will be moved to other places later.
+    """
     if os.path.exists(target_path_for_diary):
         print(f"File {target_path_for_diary} already exists.")
     else:
