@@ -8,7 +8,7 @@ def create_diary():
     if not os.path.exists(diary_dir):
         print(f"Creating directory: {diary_dir}")
         os.mkdir(diary_dir)
-    strdate = datetime.datetime.today().strftime('%Y-%m-%d')
+    strdate = datetime.datetime.today().strftime('%Y-%m-%d_%H%M%S')
     file_name_for_today = f"note_{strdate}.md"
     print(f"Today's file name would be: {file_name_for_today}")
     target_path_for_diary = os.path.join(diary_dir, file_name_for_today)
