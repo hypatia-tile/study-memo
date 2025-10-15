@@ -16,7 +16,7 @@ def create_diary():
 
 This is a temporary note for my daily learning.
 Contents will be moved to other places later.
-    """
+"""
     if os.path.exists(target_path_for_diary):
         print(f"File {target_path_for_diary} already exists.")
     else:
